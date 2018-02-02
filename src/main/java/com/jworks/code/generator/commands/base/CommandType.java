@@ -11,7 +11,7 @@ public enum CommandType {
 
     public static CommandType findByCommand(final String commandType) {
         for (final CommandType command : values()) {
-            if (command.equals(commandType)) {
+            if (command.commandType.equals(commandType)) {
                 return command;
             }
         }
