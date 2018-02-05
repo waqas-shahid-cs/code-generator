@@ -72,9 +72,9 @@ public class DBManagerImpl extends DBManager {
                 String schema = tables.getString("TABLE_SCHEM");
                 String table = tables.getString("TABLE_NAME");
                 System.out.println("Table: " + table);
-                try (ResultSet primaryKeys = databaseMetaData.getExportedKeys(catalog, schema, tableName)) {
-                    while (primaryKeys.next()) {
-                        System.out.println("Primary key: " + primaryKeys.getString("PKCOLUMN_NAME"));
+                try (ResultSet exportedKeys = databaseMetaData.getExportedKeys(catalog, schema, tableName)) {
+                    while (exportedKeys.next()) {
+                        System.out.println("Exported key: " + exportedKeys.getString("PKCOLUMN_NAME"));
                     }
                 }
             }
