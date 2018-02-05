@@ -1,0 +1,76 @@
+package {package};
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.cjs.hazel.business.process.JWorksBusinessException;
+import {entityPackage}.{entityName};
+import {domainPackage}.{domainName};
+import {repoPackage}.{repoName};
+import com.cjs.com.cjs.jworks.service.Builder;
+import com.cjs.com.cjs.jworks.service.BuilderException;
+import {baseInterfacePackage}.{baseInterface};
+
+@Service
+public class {className} extends BaseService implements {baseInterface}{
+
+    @Autowired
+    private {repoName} {repoVar};
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<{domainName}> findAll() throws JWorksBusinessException {
+        final Builder<{domainName}> builder = builder({domainName}.class);
+        try {
+            final List<{domainName}> {domainVar}s = builder.from({repoVar}.findAll()).buildList();
+            return {domainVar}s;
+        } catch (BuilderException e) {
+            throw new JWorksBusinessException(e.getMessage());
+        }
+    }
+
+    @Override
+    @Transactional(propagation = Propagation.REQUIRED, rollbackFor = JWorksBusinessException.class)
+    public {domainName} save({domainName} {domainVar}) throws JWorksBusinessException {
+        if ({domainVar} == null) {
+            throw new JWorksBusinessException("Unable to save {domainName}.");
+        }
+        {entityName} instance = null;
+        if (isValidID({domainVar}.get{primaryKey}())) {
+            instance = {repoVar}.findOne({domainVar}.get{primaryKey}());
+        }
+        final Builder<{entityName}> builder = builder({entityName}.class, instance);
+        try {
+            instance = builder.from({domainVar}).build();
+            instance = {repoVar}.save(instance);
+            final Builder<{domainName}> resultBuilder = builder({domainName}.class);
+            {domainVar} = resultBuilder.from(instance).build();
+        } catch (Exception e) {
+            throw new JWorksBusinessException("Unable to save {domainName}.", e);
+        }
+
+        return {domainVar};
+    }
+
+    @Override
+    @Transactional(propagation = Propagation.REQUIRED, readOnly = false, rollbackFor = JWorksBusinessException.class)
+    public void delete(final {domainName} {domainVar}) throws JWorksBusinessException {
+        try {
+            if ({domainVar} != null && isValidID({domainVar}.get{primaryKey}())) {
+                final {entityName} instance = {repoVar}.findOne({domainVar}.get{primaryKey}());
+                if (instance == null) {
+                    throw new JWorksBusinessException("Unable to delete {domainName}.");
+                }
+                {repoVar}.delete(instance);
+            } else {
+                throw new JWorksBusinessException("Unable to delete {domainName}.");
+            }
+        } catch (Exception e) {
+            throw new JWorksBusinessException("Unable to delete {domainName}.", e);
+        }
+    }
+}

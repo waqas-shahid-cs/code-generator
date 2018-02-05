@@ -1,0 +1,12 @@
+package {package};
+
+import java.util.List;
+
+import com.cjs.hazel.business.process.JWorksBusinessException;
+import {domainPackage}.{domainName};
+
+public interface {className} {
+    List<{domainName}> findAll() throws JWorksBusinessException;
+    {domainName} save(final {domainName} {domainVar}) throws JWorksBusinessException;
+    void delete(final {domainName} {domainVar}) throws JWorksBusinessException;
+}

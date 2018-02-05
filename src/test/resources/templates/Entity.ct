@@ -1,0 +1,16 @@
+package com.cjs.hazel.persistence.jpa.entity;
+
+import java.sql.Timestamp;
+import java.util.*;
+
+import javax.persistence.*;
+
+@Entity
+@Table(name = "{tableName}")
+public class {entityName} extends BasePersistenceJpa {
+
+{fields}
+
+{getterSetters}
+
+}
