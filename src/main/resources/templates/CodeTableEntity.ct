@@ -1,0 +1,14 @@
+package {package};
+
+import java.sql.Timestamp;
+import java.util.*;
+
+import javax.persistence.*;
+
+@Entity
+@Table(name = "{tableName}")
+public class {className} extends CodeTableEntity {
+
+{fields}
+{getterSetters}
+}
