@@ -19,6 +19,10 @@ public abstract class ContextCommand implements Command {
         return context.getTemplateResolver();
     }
 
+    public Context getContext() {
+        return context;
+    }
+
     protected String getProperty(final String key, String defaultValue) {
         return context.getProperties().getProperty(key, defaultValue);
     }

@@ -1,5 +1,0 @@
-CREATE TABLE `Book` (
-  `id`    INT(11) NOT NULL,
-  `title` VARCHAR(255) DEFAULT NULL,
-  PRIMARY KEY (`id`)
-)

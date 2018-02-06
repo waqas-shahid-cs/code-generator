@@ -2,6 +2,8 @@ package com.cjs.jworks.generator.context;
 
 import com.cjs.jworks.generator.command.base.CommandFactory;
 import com.cjs.jworks.generator.command.impl.CommandFactoryImpl;
+import com.cjs.jworks.generator.db.base.DBManager;
+import com.cjs.jworks.generator.db.impl.DBManagerImpl;
 import com.cjs.jworks.generator.generator.base.GeneratorFactory;
 import com.cjs.jworks.generator.generator.impl.GeneratorFactoryImpl;
 import com.cjs.jworks.generator.template.base.TemplateResolver;
@@ -35,5 +37,10 @@ public class ContextImpl implements Context {
 
     public void setProperties(Properties properties) {
         this.properties = properties;
+    }
+
+    @Override
+    public DBManager getDbManager() throws ClassNotFoundException {
+        return new DBManagerImpl(this);
     }
 }

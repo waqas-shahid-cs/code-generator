@@ -7,6 +7,7 @@ import com.cjs.jworks.generator.dto.impl.FieldMetaImpl;
 import org.apache.commons.lang.WordUtils;
 
 import java.sql.*;
+import java.util.HashSet;
 import java.util.Set;
 
 import static java.sql.Types.*;
@@ -19,23 +20,30 @@ public class DBManagerImpl extends DBManager {
     }
 
     private Connection createConnection() throws SQLException {
-        return DriverManager.getConnection(getProperty("genDB.url", ""), getProperty("genDB.user", ""), getProperty("genDB.pass", ""));
+        final Connection connection = DriverManager.getConnection(getProperty("genDB.url", ""), getProperty("genDB.user", ""), getProperty("genDB.pass", ""));
+        connection.setAutoCommit(false);
+        return connection;
     }
 
     @Override
     public FieldMeta[] getTableFields(final String tableName) throws SQLException {
         final Connection connection = createConnection();
-        final PreparedStatement preparedStatement = connection.prepareStatement("select * from " + tableName);
+        final PreparedStatement preparedStatement = connection.prepareStatement("select * from " + getProperty("genDB.schema", "") + "." + tableName);
         try {
-            getPrimaryKeys(tableName, connection);
-            getForeignKeys(tableName, connection);
-
             final ResultSet rs = preparedStatement.executeQuery();
             final ResultSetMetaData metaData = rs.getMetaData();
             final FieldMeta[] fieldMetas = new FieldMeta[metaData.getColumnCount()];
+            final String primaryKey = getPrimaryKey(tableName, connection);
+            final Set<String> foreignKeys = getForeignKeys(tableName, connection);
+
             for (int i = 1; i <= metaData.getColumnCount(); i++) {
                 final FieldMeta fieldMeta = new FieldMetaImpl(getFieldName(metaData.getColumnName(i)), getColumnType(metaData.getColumnType(i)), metaData.getColumnName(i));
                 fieldMeta.setNullable(metaData.isNullable(i) == 1);
+                if (fieldMeta.getDbColumn().equals(primaryKey)) {
+                    fieldMeta.setPrimaryKey(true);
+                } else if (foreignKeys.contains(fieldMeta.getDbColumn())) {
+                    fieldMeta.setForeignKey(true);
+                }
                 fieldMetas[i - 1] = fieldMeta;
             }
             return fieldMetas;
@@ -45,45 +53,30 @@ public class DBManagerImpl extends DBManager {
         }
     }
 
-    public Set<String> getPrimaryKeys(final String tableName, final Connection connection) throws SQLException {
+    private String getPrimaryKey(final String tableName, final Connection connection) throws SQLException {
         final DatabaseMetaData databaseMetaData = connection.getMetaData();
-        try (ResultSet tables = databaseMetaData.getTables(null, null, "%", new String[]{tableName})) {
-            while (tables.next()) {
-                String catalog = tables.getString("TABLE_CAT");
-                String schema = tables.getString("TABLE_SCHEM");
-                String table = tables.getString("TABLE_NAME");
-                System.out.println("Table: " + table);
-                try (ResultSet primaryKeys = databaseMetaData.getPrimaryKeys(catalog, schema, tableName)) {
-                    while (primaryKeys.next()) {
-                        System.out.println("Primary key: " + primaryKeys.getString("COLUMN_NAME"));
-                    }
-                }
-                // similar for exportedKeys
+        try (final ResultSet resultSet = databaseMetaData.getPrimaryKeys(connection.getCatalog(), getProperty("genDB.schema", ""), tableName)) {
+            while (resultSet.next()) {
+                return resultSet.getString("COLUMN_NAME");
             }
         }
         return null;
     }
 
-    public Set<String> getForeignKeys(final String tableName, final Connection connection) throws SQLException {
+    private Set<String> getForeignKeys(final String tableName, final Connection connection) throws SQLException {
         final DatabaseMetaData databaseMetaData = connection.getMetaData();
-        try (ResultSet tables = databaseMetaData.getTables(null, null, "%", new String[]{tableName})) {
-            while (tables.next()) {
-                String catalog = tables.getString("TABLE_CAT");
-                String schema = tables.getString("TABLE_SCHEM");
-                String table = tables.getString("TABLE_NAME");
-                System.out.println("Table: " + table);
-                try (ResultSet exportedKeys = databaseMetaData.getExportedKeys(catalog, schema, tableName)) {
-                    while (exportedKeys.next()) {
-                        System.out.println("Exported key: " + exportedKeys.getString("PKCOLUMN_NAME"));
-                    }
-                }
+        final Set<String> foreignKeys = new HashSet<>();
+        try (final ResultSet resultSet = databaseMetaData.getImportedKeys(connection.getCatalog(), getProperty("genDB.schema", ""), tableName)) {
+            while (resultSet.next()) {
+                foreignKeys.add(resultSet.getString(8));
             }
         }
-        return null;
+        return foreignKeys;
     }
 
     private String getColumnType(final int columnType) {
         switch (columnType) {
+            case NUMERIC:
             case BIGINT:
                 return Long.class.getSimpleName();
             case INTEGER:
@@ -129,6 +122,7 @@ public class DBManagerImpl extends DBManager {
             connection.commit();
             return result;
         } catch (Exception ex) {
+            ex.printStackTrace();
             connection.rollback();
             return false;
         } finally {

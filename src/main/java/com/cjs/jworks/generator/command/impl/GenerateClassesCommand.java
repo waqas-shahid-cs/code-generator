@@ -18,8 +18,10 @@ public class GenerateClassesCommand extends ContextCommand {
 
     public void execute() throws Exception {
         try (final Scanner scanner = new Scanner(System.in)) {
-            final EntityMeta entityMeta = readEntityMeta(scanner);
+            final EntityMetaImpl entityMeta = readEntityMeta(scanner);
             final DomainMeta domainMeta = readDomainMeta(scanner, entityMeta);
+            fillFieldsMeta(entityMeta);
+
             final File entityFile = getFactory().getEntityGenerator().generate(entityMeta);
             if (entityFile != null && entityFile.exists()) {
                 System.out.println("Entity has been generated.");
@@ -37,13 +39,18 @@ public class GenerateClassesCommand extends ContextCommand {
         }
     }
 
-    public EntityMeta readEntityMeta(final Scanner scanner) {
+    public EntityMetaImpl readEntityMeta(final Scanner scanner) {
         System.out.print("Please provide the Entity Name: ");
         final String name = scanner.nextLine();
         System.out.print("Please provide the Table Name: ");
         final String table = scanner.nextLine();
         final EntityMetaImpl entityMeta = new EntityMetaImpl(name, table, getProperty(PACKAGE_ENTITY, ""));
-        entityMeta.setFieldsMeta(getFieldsMeta(entityMeta));
+        return entityMeta;
+    }
+
+    private EntityMetaImpl fillFieldsMeta(final EntityMetaImpl entityMeta) throws Exception {
+        //entityMeta.setFieldsMeta(getFieldsMeta(entityMeta));
+        entityMeta.setFieldsMeta(getContext().getDbManager().getTableFields(entityMeta.getTable()));
         return entityMeta;
     }
 
