@@ -13,6 +13,8 @@ public class EntityGeneratorImpl extends ClassGenerator<EntityMeta> implements E
 
     private static final String PLACEHOLDER_TABLE_NAME = "tableName";
     private static final String TEMPLATE_ENTITY = "template.entity";
+    private static final String TEMPLATE_ENTITY_CODE_TABLE = "template.entity.codetable";
+    private static final String TEMPLATE_ENTITY_SORTED_CODE_TABLE = "template.entity.codetable.sorted";
 
     public EntityGeneratorImpl(final Context context) {
         super(context);
@@ -20,6 +22,11 @@ public class EntityGeneratorImpl extends ClassGenerator<EntityMeta> implements E
 
     @Override
     protected String getTemplateName(final EntityMeta entityMeta) {
+        if (entityMeta.isSortedCodeTable()) {
+            return getProperty(TEMPLATE_ENTITY_SORTED_CODE_TABLE, "");
+        } else if (entityMeta.isCodeTable()) {
+            return getProperty(TEMPLATE_ENTITY_CODE_TABLE, "");
+        }
         return getProperty(TEMPLATE_ENTITY, "");
     }
 

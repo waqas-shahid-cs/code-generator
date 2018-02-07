@@ -11,6 +11,7 @@ import java.util.Scanner;
 public class GenerateClassesCommand extends ContextCommand {
     private static final String PACKAGE_ENTITY = "package.entity";
     private static final String PACKAGE_DOMAIN = "package.domain";
+    private static final String YES = "Y";
 
     public GenerateClassesCommand(final Context context) {
         super(context);
@@ -44,7 +45,13 @@ public class GenerateClassesCommand extends ContextCommand {
         final String name = scanner.nextLine();
         System.out.print("Please provide the Table Name: ");
         final String table = scanner.nextLine();
+        System.out.print("Is Code Table Entity?(Y or N)(Default 'N'): ");
         final EntityMetaImpl entityMeta = new EntityMetaImpl(name, table, getProperty(PACKAGE_ENTITY, ""));
+        entityMeta.setCodeTable(YES.equals(scanner.nextLine()) || YES.toLowerCase().equals(scanner.nextLine()));
+        if (entityMeta.isCodeTable()) {
+            System.out.print("Is Sorted Code Table Entity?(Y or N)(Default 'N'): ");
+            entityMeta.setSortedCodeTable(YES.equals(scanner.nextLine()) || YES.toLowerCase().equals(scanner.nextLine()));
+        }
         return entityMeta;
     }
 
