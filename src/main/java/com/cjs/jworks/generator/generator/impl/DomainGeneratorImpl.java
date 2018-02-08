@@ -5,12 +5,12 @@ import com.cjs.jworks.generator.dto.base.DomainMeta;
 import com.cjs.jworks.generator.dto.base.EntityMeta;
 import com.cjs.jworks.generator.dto.base.FieldMeta;
 import com.cjs.jworks.generator.dto.impl.FieldMetaImpl;
-import com.cjs.jworks.generator.generator.base.CodeFileGenerator;
+import com.cjs.jworks.generator.generator.base.ClassFileGenerator;
 import com.cjs.jworks.generator.generator.base.DomainGenerator;
 
 import java.util.Map;
 
-public class DomainGeneratorImpl extends CodeFileGenerator<DomainMeta> implements DomainGenerator {
+public class DomainGeneratorImpl extends ClassFileGenerator<DomainMeta> implements DomainGenerator {
 
     private static final String TEMPLATE_DOMAIN = "template.domain";
 

@@ -38,19 +38,19 @@ public class ServiceGeneratorImpl extends ServiceGenerator {
     public File[] generate(final ServiceMeta serviceMeta) throws Exception {
         if (serviceMeta != null) {
             final File[] serviceFiles = new File[2];
-            final ClassMeta serviceClass = new ClassMetaImpl(serviceMeta.getDomainMeta().getName() + "Service", getProperty(PACKAGE_SERVICE, ""));
-            final ClassMeta serviceImplClass = new ClassMetaImpl(serviceMeta.getDomainMeta().getName() + "ServiceImpl", getProperty(PACKAGE_SERVICE_IMPL, ""));
+            final ClassMeta serviceClass = new ClassMetaImpl(serviceMeta.getDomainMeta().getName() + "Service", getPath(PACKAGE_SERVICE), getPackage(PACKAGE_SERVICE));
+            final ClassMeta serviceImplClass = new ClassMetaImpl(serviceMeta.getDomainMeta().getName() + "ServiceImpl", getPath(PACKAGE_SERVICE_IMPL), getPackage(PACKAGE_SERVICE_IMPL));
             final Map<String, String> params = new HashMap<String, String>() {{
-                put(PLACEHOLDER_ENTITY_PACKAGE, serviceMeta.getEntityMeta().getPackage());
+                put(PLACEHOLDER_ENTITY_PACKAGE, serviceMeta.getEntityMeta().getPath());
                 put(PLACEHOLDER_ENTITY_NAME, serviceMeta.getEntityMeta().getName());
-                put(PLACEHOLDER_DOMAIN_PACKAGE, serviceMeta.getDomainMeta().getPackage());
+                put(PLACEHOLDER_DOMAIN_PACKAGE, serviceMeta.getDomainMeta().getPath());
                 put(PLACEHOLDER_DOMAIN_NAME, serviceMeta.getDomainMeta().getName());
                 put(PLACEHOLDER_DOMAIN_VAR, getCamelCase(serviceMeta.getDomainMeta().getName()));
-                put(PLACEHOLDER_REPO_PACKAGE, serviceMeta.getRepositoryMeta().getPackage());
+                put(PLACEHOLDER_REPO_PACKAGE, serviceMeta.getRepositoryMeta().getPath());
                 put(PLACEHOLDER_REPO_NAME, serviceMeta.getRepositoryMeta().getName());
                 put(PLACEHOLDER_REPO_VAR, getCamelCase(serviceMeta.getRepositoryMeta().getName()));
                 put(PLACEHOLDER_BASE_INTERFACE, serviceClass.getName());
-                put(PLACEHOLDER_BASE_INTERFACE_PACKAGE, serviceClass.getPackage());
+                put(PLACEHOLDER_BASE_INTERFACE_PACKAGE, serviceClass.getPath());
                 put(PLACEHOLDER_PRIMARY_KEY, getPrimaryKey(serviceMeta.getEntityMeta().getFieldsMeta()));
             }};
             serviceFiles[0] = new DefaultCodeFileGenerator(getContext(), getProperty(TEMPLATE_SERVICE, ""), params, null).generate(serviceClass);
@@ -58,6 +58,14 @@ public class ServiceGeneratorImpl extends ServiceGenerator {
             return serviceFiles;
         }
         return null;
+    }
+
+    protected String getPath(final String propertyName) {
+        return getPackage(propertyName).replace('.', '/');
+    }
+
+    protected String getPackage(String packageEntity) {
+        return getProperty(packageEntity, "");
     }
 
     private String getPrimaryKey(final FieldMeta[] fieldMetas) {

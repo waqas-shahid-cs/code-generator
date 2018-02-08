@@ -6,8 +6,8 @@ import com.cjs.jworks.generator.dto.base.RepositoryMeta;
 public class RepositoryMetaImpl extends ClassMetaImpl implements RepositoryMeta {
     private final EntityMeta entityMeta;
 
-    public RepositoryMetaImpl(final String name, final String packageName, final EntityMeta entityMeta) {
-        super(name, packageName);
+    public RepositoryMetaImpl(final String name, final String path, final EntityMeta entityMeta, final String packageName) {
+        super(name, path, packageName);
         this.entityMeta = entityMeta;
     }
 

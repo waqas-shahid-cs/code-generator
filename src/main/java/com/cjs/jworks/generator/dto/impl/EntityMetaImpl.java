@@ -9,8 +9,8 @@ public class EntityMetaImpl extends ClassMetaImpl implements EntityMeta {
     private boolean sortedCodeTable;
     private FieldMeta[] fieldsMeta;
 
-    public EntityMetaImpl(final String name, final String table, final String packageName) {
-        super(name, packageName);
+    public EntityMetaImpl(final String name, final String table, final String path, final String packageName) {
+        super(name, path, packageName);
         this.table = table;
     }
 

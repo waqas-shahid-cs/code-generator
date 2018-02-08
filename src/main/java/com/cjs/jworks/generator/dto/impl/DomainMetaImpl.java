@@ -6,8 +6,8 @@ import com.cjs.jworks.generator.dto.base.EntityMeta;
 public class DomainMetaImpl extends ClassMetaImpl implements DomainMeta {
     private final EntityMeta entityMeta;
 
-    public DomainMetaImpl(String name, String packageName, EntityMeta entityMeta) {
-        super(name, packageName);
+    public DomainMetaImpl(final String name, String path, final EntityMeta entityMeta, final String packageName) {
+        super(name, path, packageName);
         this.entityMeta = entityMeta;
     }
 

@@ -3,13 +3,13 @@ package com.cjs.jworks.generator.generator.impl;
 import com.cjs.jworks.generator.context.Context;
 import com.cjs.jworks.generator.dto.base.EntityMeta;
 import com.cjs.jworks.generator.dto.base.FieldMeta;
-import com.cjs.jworks.generator.generator.base.CodeFileGenerator;
+import com.cjs.jworks.generator.generator.base.ClassFileGenerator;
 import com.cjs.jworks.generator.generator.base.EntityGenerator;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public class EntityGeneratorImpl extends CodeFileGenerator<EntityMeta> implements EntityGenerator {
+public class EntityGeneratorImpl extends ClassFileGenerator<EntityMeta> implements EntityGenerator {
 
     private static final String PLACEHOLDER_TABLE_NAME = "tableName";
     private static final String TEMPLATE_ENTITY = "template.entity";

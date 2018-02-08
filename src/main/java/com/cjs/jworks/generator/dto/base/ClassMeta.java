@@ -1,7 +1,6 @@
 package com.cjs.jworks.generator.dto.base;
 
-public interface ClassMeta {
-    String getName();
-
+public interface ClassMeta extends CodeFileMeta {
     String getPackage();
+
 }

@@ -12,6 +12,7 @@ public class GenerateClassesCommand extends ContextCommand {
     private static final String PACKAGE_ENTITY = "package.entity";
     private static final String PACKAGE_DOMAIN = "package.domain";
     private static final String YES = "Y";
+    private static final String PACKAGE_REPOSITORY = "package.repository";
 
     public GenerateClassesCommand(final Context context) {
         super(context);
@@ -29,7 +30,7 @@ public class GenerateClassesCommand extends ContextCommand {
                 getFactory().getDomainGenerator().generate(domainMeta);
                 System.out.println("Domain has been generated.");
 
-                final RepositoryMeta repositoryMeta = new RepositoryMetaImpl(entityMeta.getName() + "Repository", getProperty("package.repository", ""), entityMeta);
+                final RepositoryMeta repositoryMeta = new RepositoryMetaImpl(entityMeta.getName() + "Repository", getPath(PACKAGE_REPOSITORY), entityMeta, getPackage(PACKAGE_REPOSITORY));
                 getFactory().getRepositoryGenerator().generate(repositoryMeta);
                 System.out.println("Repository has been generated.");
 
@@ -46,13 +47,21 @@ public class GenerateClassesCommand extends ContextCommand {
         System.out.print("Please provide the Table Name: ");
         final String table = scanner.nextLine();
         System.out.print("Is Code Table Entity?(Y or N)(Default 'N'): ");
-        final EntityMetaImpl entityMeta = new EntityMetaImpl(name, table, getProperty(PACKAGE_ENTITY, ""));
+        final EntityMetaImpl entityMeta = new EntityMetaImpl(name, table, getPath(PACKAGE_DOMAIN), getPackage(PACKAGE_DOMAIN));
         entityMeta.setCodeTable(YES.equals(scanner.nextLine()) || YES.toLowerCase().equals(scanner.nextLine()));
         if (entityMeta.isCodeTable()) {
             System.out.print("Is Sorted Code Table Entity?(Y or N)(Default 'N'): ");
             entityMeta.setSortedCodeTable(YES.equals(scanner.nextLine()) || YES.toLowerCase().equals(scanner.nextLine()));
         }
         return entityMeta;
+    }
+
+    protected String getPath(final String propertyName) {
+        return getPackage(propertyName).replace('.', '/');
+    }
+
+    protected String getPackage(String packageEntity) {
+        return getProperty(packageEntity, "");
     }
 
     private EntityMetaImpl fillFieldsMeta(final EntityMetaImpl entityMeta) throws Exception {
@@ -72,7 +81,7 @@ public class GenerateClassesCommand extends ContextCommand {
     public DomainMeta readDomainMeta(final Scanner scanner, final EntityMeta entityMeta) {
         System.out.print("Please provide the Domain Name: ");
         final String name = scanner.nextLine();
-        final DomainMeta domainMeta = new DomainMetaImpl(name, getProperty(PACKAGE_DOMAIN, ""), entityMeta);
+        final DomainMeta domainMeta = new DomainMetaImpl(name, getPath(PACKAGE_DOMAIN), entityMeta, getPackage(PACKAGE_DOMAIN));
         return domainMeta;
     }
 }

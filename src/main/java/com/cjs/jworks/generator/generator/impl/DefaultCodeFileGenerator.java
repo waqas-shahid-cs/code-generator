@@ -3,11 +3,11 @@ package com.cjs.jworks.generator.generator.impl;
 import com.cjs.jworks.generator.context.Context;
 import com.cjs.jworks.generator.dto.base.ClassMeta;
 import com.cjs.jworks.generator.dto.base.FieldMeta;
-import com.cjs.jworks.generator.generator.base.CodeFileGenerator;
+import com.cjs.jworks.generator.generator.base.ClassFileGenerator;
 
 import java.util.Map;
 
-public class DefaultCodeFileGenerator extends CodeFileGenerator<ClassMeta> {
+public class DefaultCodeFileGenerator extends ClassFileGenerator<ClassMeta> {
 
     private static final String DEFAULT_FILE_EXTENSION = "java";
 
@@ -33,17 +33,17 @@ public class DefaultCodeFileGenerator extends CodeFileGenerator<ClassMeta> {
     }
 
     @Override
-    protected String getTemplateName(final ClassMeta classMeta) {
+    protected String getTemplateName(final ClassMeta codeFileMeta) {
         return templateName;
     }
 
     @Override
-    protected Map<String, String> getAdditionalParams(final ClassMeta classMeta) {
+    protected Map<String, String> getAdditionalParams(final ClassMeta codeFileMeta) {
         return additionalParams;
     }
 
     @Override
-    protected FieldMeta[] getFieldsMeta(final ClassMeta classMeta) {
+    protected FieldMeta[] getFieldsMeta(final ClassMeta codeFileMeta) {
         return fieldsMeta;
     }
 }
