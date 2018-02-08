@@ -40,7 +40,7 @@ public class ServiceGeneratorImpl extends ServiceGenerator {
             final File[] serviceFiles = new File[2];
             final ClassMeta serviceClass = new ClassMetaImpl(serviceMeta.getDomainMeta().getName() + "Service", getProperty(PACKAGE_SERVICE, ""));
             final ClassMeta serviceImplClass = new ClassMetaImpl(serviceMeta.getDomainMeta().getName() + "ServiceImpl", getProperty(PACKAGE_SERVICE_IMPL, ""));
-            final Map<String, String> additionalParams = new HashMap<String, String>() {{
+            final Map<String, String> params = new HashMap<String, String>() {{
                 put(PLACEHOLDER_ENTITY_PACKAGE, serviceMeta.getEntityMeta().getPackage());
                 put(PLACEHOLDER_ENTITY_NAME, serviceMeta.getEntityMeta().getName());
                 put(PLACEHOLDER_DOMAIN_PACKAGE, serviceMeta.getDomainMeta().getPackage());
@@ -53,8 +53,8 @@ public class ServiceGeneratorImpl extends ServiceGenerator {
                 put(PLACEHOLDER_BASE_INTERFACE_PACKAGE, serviceClass.getPackage());
                 put(PLACEHOLDER_PRIMARY_KEY, getPrimaryKey(serviceMeta.getEntityMeta().getFieldsMeta()));
             }};
-            serviceFiles[0] = new DefaultClassGenerator(getContext(), getProperty(TEMPLATE_SERVICE, ""), additionalParams, null).generate(serviceClass);
-            serviceFiles[1] = new DefaultClassGenerator(getContext(), getProperty(TEMPLATE_SERVICE_IMPL, ""), additionalParams, null).generate(serviceImplClass);
+            serviceFiles[0] = new DefaultCodeFileGenerator(getContext(), getProperty(TEMPLATE_SERVICE, ""), params, null).generate(serviceClass);
+            serviceFiles[1] = new DefaultCodeFileGenerator(getContext(), getProperty(TEMPLATE_SERVICE_IMPL, ""), params, null).generate(serviceImplClass);
             return serviceFiles;
         }
         return null;

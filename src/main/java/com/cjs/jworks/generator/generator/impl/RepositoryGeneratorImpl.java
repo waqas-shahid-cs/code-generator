@@ -3,13 +3,13 @@ package com.cjs.jworks.generator.generator.impl;
 import com.cjs.jworks.generator.context.Context;
 import com.cjs.jworks.generator.dto.base.FieldMeta;
 import com.cjs.jworks.generator.dto.base.RepositoryMeta;
-import com.cjs.jworks.generator.generator.base.ClassGenerator;
+import com.cjs.jworks.generator.generator.base.CodeFileGenerator;
 import com.cjs.jworks.generator.generator.base.RepositoryGenerator;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public class RepositoryGeneratorImpl extends ClassGenerator<RepositoryMeta> implements RepositoryGenerator {
+public class RepositoryGeneratorImpl extends CodeFileGenerator<RepositoryMeta> implements RepositoryGenerator {
     private static final String TEMPLATE_REPOSITORY = "template.repository";
     private static final String PLACEHOLDER_ENTITY_PACKAGE = "entityPackage";
     private static final String PLACEHOLDER_ENTITY_NAME = "entityName";

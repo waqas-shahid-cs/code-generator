@@ -12,18 +12,19 @@ import org.apache.commons.io.filefilter.NotFileFilter;
 import org.apache.commons.io.filefilter.TrueFileFilter;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
-public abstract class ClassGenerator<P extends ClassMeta> extends ContextGenerator<P, File> {
+public abstract class CodeFileGenerator<P extends ClassMeta> extends ContextGenerator<P, File> {
     private static final String PLACEHOLDER_CLASS_NAME = "className";
     private static final String PLACEHOLDER_PACKAGE = "package";
     private static final String PLACEHOLDER_FIELDS = "fields";
     private static final String PLACEHOLDER_GETTER_SETTERS = "getterSetters";
-    private static final String FILE_EXTENSION = ".java";
+    private static final String DEFAULT_FILE_EXTENSION = "java";
 
-    public ClassGenerator(final Context context) {
+    public CodeFileGenerator(final Context context) {
         super(context);
     }
 
@@ -31,13 +32,33 @@ public abstract class ClassGenerator<P extends ClassMeta> extends ContextGenerat
     public final File generate(final P classMeta) throws Exception {
         if (classMeta != null) {
             final Map<String, String> templateParams = getParams(classMeta);
-            final String fileName = classMeta.getName() + FILE_EXTENSION;
+            final String fileName = getFileName(classMeta);
             final String filePath = getFilePath(classMeta);
-            final String fileContent = getTemplateResolver().resolveTemplate(getTemplateName(classMeta), templateParams);
-            final FileMeta fileMeta = new FileMetaImpl(fileName, fileContent, filePath);
-            return getFactory().getFileGenerator().generate(fileMeta);
+            final String fileContent = getFileContent(classMeta, templateParams);
+            final FileMeta fileMeta = getFileMeta(fileName, filePath, fileContent);
+            return createFile(fileMeta);
         }
         return null;
+    }
+
+    protected File createFile(FileMeta fileMeta) throws Exception {
+        return getFactory().getFileGenerator().generate(fileMeta);
+    }
+
+    protected FileMeta getFileMeta(String fileName, String filePath, String fileContent) {
+        return new FileMetaImpl(fileName, fileContent, filePath);
+    }
+
+    protected String getFileContent(P classMeta, Map<String, String> templateParams) throws IOException {
+        return getTemplateResolver().resolveTemplate(getTemplateName(classMeta), templateParams);
+    }
+
+    protected String getFileName(P classMeta) {
+        return classMeta.getName() + "." + getFileExtension();
+    }
+
+    protected String getFileExtension() {
+        return DEFAULT_FILE_EXTENSION;
     }
 
     private String getFilePath(final ClassMeta classMeta) {
