@@ -5,8 +5,6 @@ import com.cjs.jworks.generator.dto.base.FieldMeta;
 
 public class EntityMetaImpl extends ClassMetaImpl implements EntityMeta {
     private final String table;
-    private boolean codeTable;
-    private boolean sortedCodeTable;
     private FieldMeta[] fieldsMeta;
 
     public EntityMetaImpl(final String name, final String table, final String path, final String packageName) {
@@ -17,24 +15,6 @@ public class EntityMetaImpl extends ClassMetaImpl implements EntityMeta {
     @Override
     public String getTable() {
         return table;
-    }
-
-    @Override
-    public boolean isCodeTable() {
-        return codeTable;
-    }
-
-    public void setCodeTable(boolean codeTable) {
-        this.codeTable = codeTable;
-    }
-
-    @Override
-    public boolean isSortedCodeTable() {
-        return sortedCodeTable;
-    }
-
-    public void setSortedCodeTable(boolean sortedCodeTable) {
-        this.sortedCodeTable = sortedCodeTable;
     }
 
     @Override

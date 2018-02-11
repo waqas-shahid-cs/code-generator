@@ -4,5 +4,5 @@ import com.cjs.jworks.generator.dto.base.EntityMeta;
 
 import java.io.File;
 
-public interface EntityGenerator extends Generator<EntityMeta, File> {
+public interface EntityGenerator<P extends EntityMeta> extends Generator<P, File> {
 }

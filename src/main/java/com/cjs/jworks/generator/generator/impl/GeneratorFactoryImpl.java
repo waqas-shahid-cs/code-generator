@@ -1,6 +1,7 @@
 package com.cjs.jworks.generator.generator.impl;
 
 import com.cjs.jworks.generator.context.Context;
+import com.cjs.jworks.generator.dto.base.CodeTableMeta;
 import com.cjs.jworks.generator.generator.base.*;
 
 public final class GeneratorFactoryImpl extends GeneratorFactory {
@@ -47,5 +48,20 @@ public final class GeneratorFactoryImpl extends GeneratorFactory {
     @Override
     public ServiceGenerator getServiceGenerator() {
         return new ServiceGeneratorImpl(getContext());
+    }
+
+    @Override
+    public EntityGenerator<CodeTableMeta> getCodeTableEntityGenerator() {
+        return new CodeTableEntityGeneratorImpl(getContext());
+    }
+
+    @Override
+    public CodeTableFeatureGenerator getCodeTableFeatureGenerator() {
+        return new CodeTableFeatureGeneratorImpl(getContext());
+    }
+
+    @Override
+    public CodeTableSqlGenerator getCodeTableSqlGenerator() {
+        return new CodeTableSqlGeneratorImpl(getContext());
     }
 }

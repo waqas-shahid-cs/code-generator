@@ -9,12 +9,10 @@ import com.cjs.jworks.generator.generator.base.EntityGenerator;
 import java.util.HashMap;
 import java.util.Map;
 
-public class EntityGeneratorImpl extends ClassFileGenerator<EntityMeta> implements EntityGenerator {
+public class EntityGeneratorImpl<P extends EntityMeta> extends ClassFileGenerator<P> implements EntityGenerator<P> {
 
     private static final String PLACEHOLDER_TABLE_NAME = "tableName";
     private static final String TEMPLATE_ENTITY = "template.entity";
-    private static final String TEMPLATE_ENTITY_CODE_TABLE = "template.entity.codetable";
-    private static final String TEMPLATE_ENTITY_SORTED_CODE_TABLE = "template.entity.codetable.sorted";
 
     public EntityGeneratorImpl(final Context context) {
         super(context);
@@ -22,11 +20,6 @@ public class EntityGeneratorImpl extends ClassFileGenerator<EntityMeta> implemen
 
     @Override
     protected String getTemplateName(final EntityMeta entityMeta) {
-        if (entityMeta.isSortedCodeTable()) {
-            return getProperty(TEMPLATE_ENTITY_SORTED_CODE_TABLE, "");
-        } else if (entityMeta.isCodeTable()) {
-            return getProperty(TEMPLATE_ENTITY_CODE_TABLE, "");
-        }
         return getProperty(TEMPLATE_ENTITY, "");
     }
 

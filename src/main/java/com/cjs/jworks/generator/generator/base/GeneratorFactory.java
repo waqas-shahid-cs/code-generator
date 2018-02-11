@@ -1,6 +1,8 @@
 package com.cjs.jworks.generator.generator.base;
 
 import com.cjs.jworks.generator.context.Context;
+import com.cjs.jworks.generator.dto.base.CodeTableMeta;
+import com.cjs.jworks.generator.dto.base.EntityMeta;
 
 public abstract class GeneratorFactory {
     private final Context context;
@@ -13,7 +15,7 @@ public abstract class GeneratorFactory {
         return context;
     }
 
-    public abstract EntityGenerator getEntityGenerator();
+    public abstract <P extends EntityMeta> EntityGenerator<P> getEntityGenerator();
 
     public abstract DomainGenerator getDomainGenerator();
 
@@ -28,5 +30,11 @@ public abstract class GeneratorFactory {
     public abstract RepositoryGenerator getRepositoryGenerator();
 
     public abstract ServiceGenerator getServiceGenerator();
+
+    public abstract EntityGenerator<CodeTableMeta> getCodeTableEntityGenerator();
+
+    public abstract CodeTableFeatureGenerator getCodeTableFeatureGenerator();
+
+    public abstract CodeTableSqlGenerator getCodeTableSqlGenerator();
 
 }

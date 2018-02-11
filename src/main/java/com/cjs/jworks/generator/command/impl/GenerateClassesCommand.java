@@ -4,8 +4,10 @@ import com.cjs.jworks.generator.command.base.ContextCommand;
 import com.cjs.jworks.generator.context.Context;
 import com.cjs.jworks.generator.dto.base.*;
 import com.cjs.jworks.generator.dto.impl.*;
+import org.apache.commons.lang3.StringUtils;
 
 import java.io.File;
+import java.sql.SQLException;
 import java.util.Scanner;
 
 public class GenerateClassesCommand extends ContextCommand {
@@ -13,6 +15,7 @@ public class GenerateClassesCommand extends ContextCommand {
     private static final String PACKAGE_DOMAIN = "package.domain";
     private static final String YES = "Y";
     private static final String PACKAGE_REPOSITORY = "package.repository";
+    private static final String PACKAGE_SQL = "package.sql";
 
     public GenerateClassesCommand(final Context context) {
         super(context);
@@ -23,8 +26,15 @@ public class GenerateClassesCommand extends ContextCommand {
             final EntityMetaImpl entityMeta = readEntityMeta(scanner);
             final DomainMeta domainMeta = readDomainMeta(scanner, entityMeta);
             fillFieldsMeta(entityMeta);
+            final CodeTableMeta codeTableMeta = readCodeTableMeta(scanner, entityMeta);
+            File entityFile;
+            if (codeTableMeta != null) {
+                entityFile = getContext().getGeneratorFactory().getCodeTableFeatureGenerator().generate(codeTableMeta);
+            } else {
+                entityFile = getContext().getGeneratorFactory().getEntityGenerator().generate(entityMeta);
+            }
 
-            final File entityFile = getFactory().getEntityGenerator().generate(entityMeta);
+
             if (entityFile != null && entityFile.exists()) {
                 System.out.println("Entity has been generated.");
                 getFactory().getDomainGenerator().generate(domainMeta);
@@ -46,14 +56,26 @@ public class GenerateClassesCommand extends ContextCommand {
         final String name = scanner.nextLine();
         System.out.print("Please provide the Table Name: ");
         final String table = scanner.nextLine();
-        System.out.print("Is Code Table Entity?(Y or N)(Default 'N'): ");
         final EntityMetaImpl entityMeta = new EntityMetaImpl(name, table, getPath(PACKAGE_DOMAIN), getPackage(PACKAGE_DOMAIN));
-        entityMeta.setCodeTable(YES.equals(scanner.nextLine()) || YES.toLowerCase().equals(scanner.nextLine()));
-        if (entityMeta.isCodeTable()) {
-            System.out.print("Is Sorted Code Table Entity?(Y or N)(Default 'N'): ");
-            entityMeta.setSortedCodeTable(YES.equals(scanner.nextLine()) || YES.toLowerCase().equals(scanner.nextLine()));
-        }
         return entityMeta;
+    }
+
+    public CodeTableMeta readCodeTableMeta(final Scanner scanner, final EntityMeta entityMeta) {
+        System.out.print("Is Code Table Entity?(Y or N)(Default 'N'): ");
+        final String isCodeTable = scanner.nextLine();
+        if (YES.equals(isCodeTable) || YES.toLowerCase().equals(isCodeTable)) {
+            final CodeTableMetaImpl codeTableMeta = new CodeTableMetaImpl(entityMeta);
+            System.out.print("Is Sorted Code Table Entity?(Y or N)(Default 'N'): ");
+            final String isSortedCodeTable = scanner.nextLine();
+            codeTableMeta.setSorted(YES.equals(isSortedCodeTable) || YES.toLowerCase().equals(isSortedCodeTable));
+            System.out.print("Please enter the sql script file(Leave empty if not required): ");
+            final String sqlFile = scanner.nextLine();
+            if (StringUtils.isNotBlank(sqlFile)) {
+                codeTableMeta.setSqlFileMeta(new SqlFileMetaImpl(sqlFile, getProperty(PACKAGE_SQL, "")));
+            }
+            return codeTableMeta;
+        }
+        return null;
     }
 
     protected String getPath(final String propertyName) {
@@ -66,7 +88,11 @@ public class GenerateClassesCommand extends ContextCommand {
 
     private EntityMetaImpl fillFieldsMeta(final EntityMetaImpl entityMeta) throws Exception {
         //entityMeta.setFieldsMeta(getFieldsMeta(entityMeta));
-        entityMeta.setFieldsMeta(getContext().getDbManager().getTableFields(entityMeta.getTable()));
+        try {
+            entityMeta.setFieldsMeta(getContext().getDbManager().getTableFields(entityMeta.getTable()));
+        } catch (SQLException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
         return entityMeta;
     }
 
