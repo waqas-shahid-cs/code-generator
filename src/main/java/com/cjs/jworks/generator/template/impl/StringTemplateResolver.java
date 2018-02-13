@@ -6,11 +6,9 @@ import com.cjs.jworks.generator.template.base.TemplateResolver;
 import org.apache.commons.collections4.MapUtils;
 import org.apache.commons.lang3.StringUtils;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.net.URL;
+import java.net.URLDecoder;
 import java.util.Map;
 
 public class StringTemplateResolver extends TemplateResolver {
@@ -76,7 +74,11 @@ public class StringTemplateResolver extends TemplateResolver {
     private File getTemplateFolder() {
         final URL url = getClass().getClassLoader().getResource(getContext().getProperties().getProperty(TEMPLATE_FOLDER_KEY, ""));
         if (url != null) {
-            return new File(url.getFile());
+            try {
+                return new File(URLDecoder.decode(url.getFile(), "UTF-8"));
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            }
         }
         return null;
     }

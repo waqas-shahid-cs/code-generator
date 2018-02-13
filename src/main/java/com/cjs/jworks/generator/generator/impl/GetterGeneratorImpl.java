@@ -50,9 +50,9 @@ public class GetterGeneratorImpl extends GetterGenerator {
                         .append("\n");
             }
             if (!fieldMeta.isForeignKey()) {
-                annotations.append(String.format("@Column(name = \"%s\", nullable = %b)", fieldMeta.getName(), !fieldMeta.isNullable()));
+                annotations.append(String.format("@Column(name = \"%s\", nullable = %b)", fieldMeta.getDbColumn(), !fieldMeta.isNullable()));
             } else {
-                annotations.append(String.format("@JoinColumn(name = \"%s\", nullable = %b)", fieldMeta.getName(), !fieldMeta.isNullable()));
+                annotations.append(String.format("@JoinColumn(name = \"%s\", nullable = %b)", fieldMeta.getDbColumn(), !fieldMeta.isNullable()));
             }
         }
         return annotations.toString();

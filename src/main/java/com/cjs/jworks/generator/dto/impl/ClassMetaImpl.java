@@ -2,25 +2,12 @@ package com.cjs.jworks.generator.dto.impl;
 
 import com.cjs.jworks.generator.dto.base.ClassMeta;
 
-public class ClassMetaImpl implements ClassMeta {
-    private final String name;
-    private final String path;
+public class ClassMetaImpl extends CodeFileMetaImpl implements ClassMeta {
     private final String packageName;
 
     public ClassMetaImpl(final String name, final String path, final String packageName) {
-        this.name = name;
-        this.path = path;
+        super(name, path);
         this.packageName = packageName;
-    }
-
-    @Override
-    public String getName() {
-        return name;
-    }
-
-    @Override
-    public String getPath() {
-        return path;
     }
 
     @Override

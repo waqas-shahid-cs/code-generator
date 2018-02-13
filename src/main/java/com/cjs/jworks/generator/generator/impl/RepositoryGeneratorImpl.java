@@ -26,7 +26,7 @@ public class RepositoryGeneratorImpl extends ClassFileGenerator<RepositoryMeta> 
     @Override
     protected Map<String, String> getAdditionalParams(final RepositoryMeta repositoryMeta) {
         return new HashMap<String, String>() {{
-            put(PLACEHOLDER_ENTITY_PACKAGE, repositoryMeta.getEntityMeta().getPath());
+            put(PLACEHOLDER_ENTITY_PACKAGE, repositoryMeta.getEntityMeta().getPackage());
             put(PLACEHOLDER_ENTITY_NAME, repositoryMeta.getEntityMeta().getName());
         }};
     }

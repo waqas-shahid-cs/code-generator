@@ -15,7 +15,7 @@ public class GenerateClassesCommand extends ContextCommand {
     private static final String PACKAGE_DOMAIN = "package.domain";
     private static final String YES = "Y";
     private static final String PACKAGE_REPOSITORY = "package.repository";
-    private static final String PACKAGE_SQL = "package.sql";
+    private static final String PATH_SQL = "path.sql";
 
     public GenerateClassesCommand(final Context context) {
         super(context);
@@ -56,7 +56,7 @@ public class GenerateClassesCommand extends ContextCommand {
         final String name = scanner.nextLine();
         System.out.print("Please provide the Table Name: ");
         final String table = scanner.nextLine();
-        final EntityMetaImpl entityMeta = new EntityMetaImpl(name, table, getPath(PACKAGE_DOMAIN), getPackage(PACKAGE_DOMAIN));
+        final EntityMetaImpl entityMeta = new EntityMetaImpl(name, table, getPath(PACKAGE_ENTITY), getPackage(PACKAGE_ENTITY));
         return entityMeta;
     }
 
@@ -71,7 +71,7 @@ public class GenerateClassesCommand extends ContextCommand {
             System.out.print("Please enter the sql script file(Leave empty if not required): ");
             final String sqlFile = scanner.nextLine();
             if (StringUtils.isNotBlank(sqlFile)) {
-                codeTableMeta.setSqlFileMeta(new SqlFileMetaImpl(sqlFile, getProperty(PACKAGE_SQL, "")));
+                codeTableMeta.setSqlFileMeta(new SqlFileMetaImpl(sqlFile, getPath(PATH_SQL)));
             }
             return codeTableMeta;
         }
@@ -79,7 +79,7 @@ public class GenerateClassesCommand extends ContextCommand {
     }
 
     protected String getPath(final String propertyName) {
-        return getPackage(propertyName).replace('.', '/');
+        return getPackage(propertyName).replace('.', '\\');
     }
 
     protected String getPackage(String packageEntity) {

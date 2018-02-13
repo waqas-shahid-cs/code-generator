@@ -41,9 +41,9 @@ public class ServiceGeneratorImpl extends ServiceGenerator {
             final ClassMeta serviceClass = new ClassMetaImpl(serviceMeta.getDomainMeta().getName() + "Service", getPath(PACKAGE_SERVICE), getPackage(PACKAGE_SERVICE));
             final ClassMeta serviceImplClass = new ClassMetaImpl(serviceMeta.getDomainMeta().getName() + "ServiceImpl", getPath(PACKAGE_SERVICE_IMPL), getPackage(PACKAGE_SERVICE_IMPL));
             final Map<String, String> params = new HashMap<String, String>() {{
-                put(PLACEHOLDER_ENTITY_PACKAGE, serviceMeta.getEntityMeta().getPath());
+                put(PLACEHOLDER_ENTITY_PACKAGE, serviceMeta.getEntityMeta().getPackage());
                 put(PLACEHOLDER_ENTITY_NAME, serviceMeta.getEntityMeta().getName());
-                put(PLACEHOLDER_DOMAIN_PACKAGE, serviceMeta.getDomainMeta().getPath());
+                put(PLACEHOLDER_DOMAIN_PACKAGE, serviceMeta.getDomainMeta().getPackage());
                 put(PLACEHOLDER_DOMAIN_NAME, serviceMeta.getDomainMeta().getName());
                 put(PLACEHOLDER_DOMAIN_VAR, getCamelCase(serviceMeta.getDomainMeta().getName()));
                 put(PLACEHOLDER_REPO_PACKAGE, serviceMeta.getRepositoryMeta().getPath());
