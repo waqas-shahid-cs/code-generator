@@ -44,7 +44,7 @@ public class CodeTableSqlGeneratorImpl extends CodeFileGenerator<CodeTableSqlMet
     protected Map<String, String> getParams(final CodeTableSqlMeta codeTableSqlMeta) throws Exception {
         final CodeTableMeta codeTableMeta = codeTableSqlMeta.getCodeTableMeta();
         final Map<String, String> params = new HashMap<String, String>() {{
-            put(PLACEHOLDER_ENTITY_PACKAGE, codeTableMeta.getPath());
+            put(PLACEHOLDER_ENTITY_PACKAGE, codeTableMeta.getPackage());
             put(PLACEHOLDER_ENTITY_NAME, codeTableMeta.getName());
             put(PLACEHOLDER_DISPLAY_NAME, codeTableMeta.getName());
             put(PLACEHOLDER_EDITOR_TYPE, getProperty(DEFAULT_EDITOR_TYPE, ""));
@@ -59,7 +59,7 @@ public class CodeTableSqlGeneratorImpl extends CodeFileGenerator<CodeTableSqlMet
         if (template != null) {
             for (int i = 0; i < fieldMetas.length; i++) {
                 final FieldMeta fieldMeta = fieldMetas[i];
-                final int idx = i, sortOrder = i;
+                final int idx = i, sortOrder = i - 1;
                 builder.append(template.resolve(new HashMap<String, String>() {{
                     put(PLACEHOLDER_FIELD_NAME, fieldMeta.getName());
                     put(PLACEHOLDER_DISPLAY_NAME, WordUtils.capitalize(fieldMeta.getDbColumn().toLowerCase().replace("_", " "), new char[]{' '}));
