@@ -1,0 +1,4 @@
+    {annotations}
+    public {fieldType} get{methodName}() {
+        return {fieldName};
+    }

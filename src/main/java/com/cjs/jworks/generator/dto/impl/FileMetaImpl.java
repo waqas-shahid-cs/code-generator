@@ -6,6 +6,7 @@ public class FileMetaImpl implements FileMeta {
     private final String name;
     private final String content;
     private final String path;
+    private boolean append;
 
     public FileMetaImpl(String name, String content, String path) {
         this.name = name;
@@ -26,5 +27,14 @@ public class FileMetaImpl implements FileMeta {
     @Override
     public String getPath() {
         return path;
+    }
+
+    @Override
+    public boolean canAppend() {
+        return append;
+    }
+
+    public void setAppend(boolean append) {
+        this.append = append;
     }
 }

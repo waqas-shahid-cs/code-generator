@@ -1,0 +1,10 @@
+package {package};
+
+import java.io.Serializable;
+import java.util.*;
+
+public class {className} extends BaseDomainObject implements Serializable {
+
+{fields}
+{getterSetters}
+}

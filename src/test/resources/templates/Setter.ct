@@ -1,0 +1,3 @@
+    public void set{methodName}({fieldType} {fieldName}) {
+        this.{fieldName} = {fieldName};
+    }

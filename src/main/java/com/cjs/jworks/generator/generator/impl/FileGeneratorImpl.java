@@ -16,9 +16,13 @@ public class FileGeneratorImpl implements FileGenerator {
                 throw new IOException("The system cannot find the path specified: " + folder.getAbsolutePath());
             }
             final File file = new File(folder, fileMeta.getName());
+            boolean isNew = false;
             if (!file.exists()) {
                 file.createNewFile();
-                try (FileWriter writer = new FileWriter(file)) {
+                isNew = true;
+            }
+            if (isNew || fileMeta.canAppend()) {
+                try (final FileWriter writer = new FileWriter(file, fileMeta.canAppend())) {
                     writer.write(fileMeta.getContent());
                 }
             }

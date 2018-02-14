@@ -6,4 +6,8 @@ public interface FileMeta {
     String getPath();
 
     String getContent();
+
+    boolean canAppend();
+
+    void setAppend(boolean append);
 }

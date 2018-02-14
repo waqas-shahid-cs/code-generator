@@ -1,0 +1,26 @@
+-- -- -- -- -- -- -- -- -- -- -- --
+-- CODE TABLE: {entityName}
+-- -- -- -- -- -- -- -- -- -- -- --
+
+IF NOT EXISTS(SELECT * FROM hazel.CODE_TABLE_META where CT_ENTITY_FQN = '{entityPackage}.{entityName}')
+BEGIN
+
+DECLARE @v_CT_META_ID numeric(11,0);
+DECLARE @v_CT_GROUPS_ID numeric(11,0);
+
+SELECT @v_CT_META_ID = MAX(CT_META_ID) + 1 FROM hazel.CODE_TABLE_META;
+SELECT @v_CT_GROUPS_ID = CT_GROUPS_ID FROM hazel.CODE_TABLE_GROUPS WHERE NAM = 'Other';
+
+INSERT INTO hazel.CODE_TABLE_META (CT_META_ID, CT_ENTITY_FQN, EDITOR_TYPE, NAM, DESCR, SORT_ORDER, CREATED_BY, DTM_CREATED, VERSION, DTM_VALS_MOD, HIDDEN)
+VALUES (@v_CT_META_ID, '{entityPackage}.{entityName}', '{editorType}', '{displayName}', '{displayName}', 1, 'JWORKS',
+        CURRENT_TIMESTAMP, 1, CURRENT_TIMESTAMP, NULL);
+INSERT INTO hazel.CT_GROUPS_META_XREF (CT_GROUPS_ID, CT_META_ID)
+VALUES (@v_CT_GROUPS_ID, @v_CT_META_ID);
+
+DECLARE @v_CT_FIELDS_ID numeric(11);
+SET @v_CT_FIELDS_ID = (SELECT MAX(CT_FIELDS_ID) FROM hazel.CODE_TABLE_FIELDS);
+
+{fieldQueries}
+
+END
+GO

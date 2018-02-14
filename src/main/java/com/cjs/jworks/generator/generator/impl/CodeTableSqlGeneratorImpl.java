@@ -4,6 +4,7 @@ import com.cjs.jworks.generator.context.Context;
 import com.cjs.jworks.generator.dto.base.CodeTableMeta;
 import com.cjs.jworks.generator.dto.base.CodeTableSqlMeta;
 import com.cjs.jworks.generator.dto.base.FieldMeta;
+import com.cjs.jworks.generator.dto.base.FileMeta;
 import com.cjs.jworks.generator.generator.base.CodeFileGenerator;
 import com.cjs.jworks.generator.generator.base.CodeTableSqlGenerator;
 import com.cjs.jworks.generator.template.base.Template;
@@ -59,11 +60,11 @@ public class CodeTableSqlGeneratorImpl extends CodeFileGenerator<CodeTableSqlMet
         if (template != null) {
             for (int i = 0; i < fieldMetas.length; i++) {
                 final FieldMeta fieldMeta = fieldMetas[i];
-                final int idx = i, sortOrder = i - 1;
+                final int index = i + 1, sortOrder = i;
                 builder.append(template.resolve(new HashMap<String, String>() {{
                     put(PLACEHOLDER_FIELD_NAME, fieldMeta.getName());
                     put(PLACEHOLDER_DISPLAY_NAME, WordUtils.capitalize(fieldMeta.getDbColumn().toLowerCase().replace("_", " "), new char[]{' '}));
-                    put(PLACEHOLDER_INDEX, idx + "");
+                    put(PLACEHOLDER_INDEX, index + "");
                     put(PLACEHOLDER_SORT_ORDER, sortOrder + "");
                 }}));
             }
@@ -74,5 +75,12 @@ public class CodeTableSqlGeneratorImpl extends CodeFileGenerator<CodeTableSqlMet
     @Override
     protected String getTemplateName(final CodeTableSqlMeta codeTableSqlMeta) {
         return getProperty(TEMPLATE_CODE_TABLE_META, "");
+    }
+
+    @Override
+    protected FileMeta getFileMeta(String fileName, String filePath, String fileContent) {
+        final FileMeta fileMeta = super.getFileMeta(fileName, filePath, fileContent);
+        fileMeta.setAppend(true);
+        return fileMeta;
     }
 }
