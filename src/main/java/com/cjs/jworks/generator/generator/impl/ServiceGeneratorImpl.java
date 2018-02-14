@@ -38,8 +38,8 @@ public class ServiceGeneratorImpl extends ServiceGenerator {
     public File[] generate(final ServiceMeta serviceMeta) throws Exception {
         if (serviceMeta != null) {
             final File[] serviceFiles = new File[2];
-            final ClassMeta serviceClass = new ClassMetaImpl(serviceMeta.getDomainMeta().getName() + "Service", getPath(PACKAGE_SERVICE), getPackage(PACKAGE_SERVICE));
-            final ClassMeta serviceImplClass = new ClassMetaImpl(serviceMeta.getDomainMeta().getName() + "ServiceImpl", getPath(PACKAGE_SERVICE_IMPL), getPackage(PACKAGE_SERVICE_IMPL));
+            final ClassMeta serviceClass = new ClassMetaImpl(serviceMeta.getBaseInterfaceName(), getPath(PACKAGE_SERVICE), getPackage(PACKAGE_SERVICE));
+            final ClassMeta serviceImplClass = new ClassMetaImpl(serviceMeta.getImplClassName(), getPath(PACKAGE_SERVICE_IMPL), getPackage(PACKAGE_SERVICE_IMPL));
             final Map<String, String> params = new HashMap<String, String>() {{
                 put(PLACEHOLDER_ENTITY_PACKAGE, serviceMeta.getEntityMeta().getPackage());
                 put(PLACEHOLDER_ENTITY_NAME, serviceMeta.getEntityMeta().getName());

@@ -44,7 +44,7 @@ public class GenerateClassesCommand extends ContextCommand {
                 getFactory().getRepositoryGenerator().generate(repositoryMeta);
                 System.out.println("Repository has been generated.");
 
-                final ServiceMeta serviceMeta = new ServiceMetaImpl(entityMeta, domainMeta, repositoryMeta);
+                final ServiceMeta serviceMeta = new ServiceMetaImpl(domainMeta.getName() + "Service", domainMeta.getName() + "ServiceImpl", entityMeta, domainMeta, repositoryMeta);
                 getFactory().getServiceGenerator().generate(serviceMeta);
                 System.out.println("Service has been generated.");
             }

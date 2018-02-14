@@ -9,11 +9,15 @@ public class ServiceMetaImpl implements ServiceMeta {
     private final EntityMeta entityMeta;
     private final DomainMeta domainMeta;
     private final RepositoryMeta repositoryMeta;
+    private final String baseInterfaceName;
+    private final String implClassName;
 
-    public ServiceMetaImpl(final EntityMeta entityMeta, final DomainMeta domainMeta, final RepositoryMeta repositoryMeta) {
+    public ServiceMetaImpl(final String baseInterfaceName, final String implClassName, final EntityMeta entityMeta, final DomainMeta domainMeta, final RepositoryMeta repositoryMeta) {
         this.entityMeta = entityMeta;
         this.domainMeta = domainMeta;
         this.repositoryMeta = repositoryMeta;
+        this.baseInterfaceName = baseInterfaceName;
+        this.implClassName = implClassName;
     }
 
     @Override
@@ -29,5 +33,15 @@ public class ServiceMetaImpl implements ServiceMeta {
     @Override
     public RepositoryMeta getRepositoryMeta() {
         return repositoryMeta;
+    }
+
+    @Override
+    public String getBaseInterfaceName() {
+        return baseInterfaceName;
+    }
+
+    @Override
+    public String getImplClassName() {
+        return implClassName;
     }
 }
