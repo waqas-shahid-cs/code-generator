@@ -64,4 +64,9 @@ public final class GeneratorFactoryImpl extends GeneratorFactory {
     public CodeTableSqlGenerator getCodeTableSqlGenerator() {
         return new CodeTableSqlGeneratorImpl(getContext());
     }
+
+    @Override
+    public ControllerGenerator getControllerGenerator() {
+        return new ControllerGeneratorImpl(getContext());
+    }
 }

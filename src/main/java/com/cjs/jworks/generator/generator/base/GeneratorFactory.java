@@ -37,4 +37,6 @@ public abstract class GeneratorFactory {
 
     public abstract CodeTableSqlGenerator getCodeTableSqlGenerator();
 
+    public abstract ControllerGenerator getControllerGenerator();
+
 }
