@@ -7,7 +7,7 @@ public interface ServiceMeta {
 
     RepositoryMeta getRepositoryMeta();
 
-    String getBaseInterfaceName();
+    ClassMeta getBaseServiceMeta();
 
-    String getImplClassName();
+    ClassMeta getServiceImplMeta();
 }

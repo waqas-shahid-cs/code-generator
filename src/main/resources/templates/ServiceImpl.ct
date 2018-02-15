@@ -26,7 +26,7 @@ public class {className} extends BaseService implements {baseInterface}{
     public {domainName} findById({primaryFieldType} {primaryField}) throws JWorksBusinessException {
     	Builder<{domainName}> builder = builder({domainName}.class);
         try {
-        	return builder.from(alertsRepository.findOne({primaryField})).build();
+        	return builder.from({repoVar}.findOne({primaryField})).build();
         } catch (Exception e) {
             throw new JWorksBusinessException("Error finding {domainName} " + {primaryField}, e);
         }
@@ -46,33 +46,33 @@ public class {className} extends BaseService implements {baseInterface}{
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = JWorksBusinessException.class)
-    public {domainName} save({domainName} {domainVar}) throws JWorksBusinessException {
-        if ({domainVar} == null) {
+    public {domainName} save({domainName} modifiedRow) throws JWorksBusinessException {
+        if (modifiedRow == null) {
             throw new JWorksBusinessException("Unable to save {domainName}.");
         }
         {entityName} instance = null;
-        if (isValidID({domainVar}.get{primaryKey}())) {
-            instance = {repoVar}.findOne({domainVar}.get{primaryKey}());
+        if (isValidID(modifiedRow.get{primaryKey}())) {
+            instance = {repoVar}.findOne(modifiedRow.get{primaryKey}());
         }
         final Builder<{entityName}> builder = builder({entityName}.class, instance);
         try {
-            instance = builder.from({domainVar}).build();
+            instance = builder.from(modifiedRow).build();
             instance = {repoVar}.save(instance);
             final Builder<{domainName}> resultBuilder = builder({domainName}.class);
-            {domainVar} = resultBuilder.from(instance).build();
+            modifiedRow = resultBuilder.from(instance).build();
         } catch (Exception e) {
             throw new JWorksBusinessException("Unable to save {domainName}.", e);
         }
 
-        return {domainVar};
+        return modifiedRow;
     }
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED, readOnly = false, rollbackFor = JWorksBusinessException.class)
-    public void delete(final {domainName} {domainVar}) throws JWorksBusinessException {
+    public void delete(final {domainName} modifiedRow) throws JWorksBusinessException {
         try {
-            if ({domainVar} != null && isValidID({domainVar}.get{primaryKey}())) {
-                final {entityName} instance = {repoVar}.findOne({domainVar}.get{primaryKey}());
+            if (modifiedRow != null && isValidID(modifiedRow.get{primaryKey}())) {
+                final {entityName} instance = {repoVar}.findOne(modifiedRow.get{primaryKey}());
                 if (instance == null) {
                     throw new JWorksBusinessException("Unable to delete {domainName}.");
                 }

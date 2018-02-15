@@ -7,14 +7,18 @@ import com.cjs.jworks.generator.dto.impl.*;
 import org.apache.commons.lang3.StringUtils;
 
 import java.io.File;
-import java.sql.SQLException;
 import java.util.Scanner;
 
 public class GenerateClassesCommand extends ContextCommand {
+    public static final String PACKAGE_CONTROLLER = "package.controller";
     private static final String PACKAGE_ENTITY = "package.entity";
     private static final String PACKAGE_DOMAIN = "package.domain";
-    private static final String YES = "Y";
+    private static final String PACKAGE_SERVICE = "package.service";
+    private static final String PACKAGE_SERVICE_IMPL = "package.service.impl";
     private static final String PACKAGE_REPOSITORY = "package.repository";
+
+    private static final String YES = "Y";
+
     private static final String PATH_SQL = "path.sql";
 
     public GenerateClassesCommand(final Context context) {
@@ -44,9 +48,14 @@ public class GenerateClassesCommand extends ContextCommand {
                 getFactory().getRepositoryGenerator().generate(repositoryMeta);
                 System.out.println("Repository has been generated.");
 
-                final ServiceMeta serviceMeta = new ServiceMetaImpl(domainMeta.getName() + "Service", domainMeta.getName() + "ServiceImpl", entityMeta, domainMeta, repositoryMeta);
+                final ClassMeta baseServiceMeta = new ClassMetaImpl(domainMeta.getName() + "Service", getPath(PACKAGE_SERVICE), getPackage(PACKAGE_SERVICE));
+                final ClassMeta serviceImplMeta = new ClassMetaImpl(domainMeta.getName() + "ServiceImpl", getPath(PACKAGE_SERVICE_IMPL), getPackage(PACKAGE_SERVICE_IMPL));
+                final ServiceMeta serviceMeta = new ServiceMetaImpl(baseServiceMeta, serviceImplMeta, entityMeta, domainMeta, repositoryMeta);
                 getFactory().getServiceGenerator().generate(serviceMeta);
                 System.out.println("Service has been generated.");
+
+                final ControllerMeta controllerMeta = readControllerMeta(scanner, serviceMeta);
+                getFactory().getControllerGenerator().generate(controllerMeta);
             }
         }
     }
@@ -58,6 +67,13 @@ public class GenerateClassesCommand extends ContextCommand {
         final String table = scanner.nextLine();
         final EntityMetaImpl entityMeta = new EntityMetaImpl(name, table, getPath(PACKAGE_ENTITY), getPackage(PACKAGE_ENTITY));
         return entityMeta;
+    }
+
+    public ControllerMetaImpl readControllerMeta(final Scanner scanner, final ServiceMeta serviceMeta) {
+        System.out.print("Please provide the Endpoint for the Controller(Leave empty if Controller is not required): ");
+        final String endpoint = scanner.nextLine();
+        final ControllerMetaImpl controllerMeta = new ControllerMetaImpl(serviceMeta.getDomainMeta().getName() + "Controller", getPath(PACKAGE_CONTROLLER), getPackage(PACKAGE_ENTITY), endpoint, serviceMeta);
+        return controllerMeta;
     }
 
     public CodeTableMeta readCodeTableMeta(final Scanner scanner, final EntityMeta entityMeta) {
@@ -87,12 +103,12 @@ public class GenerateClassesCommand extends ContextCommand {
     }
 
     private EntityMetaImpl fillFieldsMeta(final EntityMetaImpl entityMeta) throws Exception {
-        //entityMeta.setFieldsMeta(getFieldsMeta(entityMeta));
-        try {
+        entityMeta.setFieldsMeta(getFieldsMeta(entityMeta));
+       /* try {
             entityMeta.setFieldsMeta(getContext().getDbManager().getTableFields(entityMeta.getTable()));
         } catch (SQLException | ClassNotFoundException e) {
             e.printStackTrace();
-        }
+        }*/
         return entityMeta;
     }
 

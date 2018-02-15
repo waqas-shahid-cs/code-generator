@@ -1,23 +1,20 @@
 package com.cjs.jworks.generator.dto.impl;
 
-import com.cjs.jworks.generator.dto.base.DomainMeta;
-import com.cjs.jworks.generator.dto.base.EntityMeta;
-import com.cjs.jworks.generator.dto.base.RepositoryMeta;
-import com.cjs.jworks.generator.dto.base.ServiceMeta;
+import com.cjs.jworks.generator.dto.base.*;
 
 public class ServiceMetaImpl implements ServiceMeta {
     private final EntityMeta entityMeta;
     private final DomainMeta domainMeta;
     private final RepositoryMeta repositoryMeta;
-    private final String baseInterfaceName;
-    private final String implClassName;
+    private final ClassMeta baseServiceMeta;
+    private final ClassMeta serviceImplMeta;
 
-    public ServiceMetaImpl(final String baseInterfaceName, final String implClassName, final EntityMeta entityMeta, final DomainMeta domainMeta, final RepositoryMeta repositoryMeta) {
+    public ServiceMetaImpl(final ClassMeta baseServiceMeta, final ClassMeta serviceImplMeta, final EntityMeta entityMeta, final DomainMeta domainMeta, final RepositoryMeta repositoryMeta) {
         this.entityMeta = entityMeta;
         this.domainMeta = domainMeta;
         this.repositoryMeta = repositoryMeta;
-        this.baseInterfaceName = baseInterfaceName;
-        this.implClassName = implClassName;
+        this.baseServiceMeta = baseServiceMeta;
+        this.serviceImplMeta = serviceImplMeta;
     }
 
     @Override
@@ -36,12 +33,12 @@ public class ServiceMetaImpl implements ServiceMeta {
     }
 
     @Override
-    public String getBaseInterfaceName() {
-        return baseInterfaceName;
+    public ClassMeta getBaseServiceMeta() {
+        return baseServiceMeta;
     }
 
     @Override
-    public String getImplClassName() {
-        return implClassName;
+    public ClassMeta getServiceImplMeta() {
+        return serviceImplMeta;
     }
 }
