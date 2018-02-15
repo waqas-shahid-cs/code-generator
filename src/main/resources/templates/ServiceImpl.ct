@@ -23,6 +23,17 @@ public class {className} extends BaseService implements {baseInterface}{
 
     @Override
     @Transactional(readOnly = true)
+    public {domainName} findById({primaryFieldType} {primaryField}) throws JWorksBusinessException {
+    	Builder<{domainName}> builder = builder({domainName}.class);
+        try {
+        	return builder.from(alertsRepository.findOne({primaryField})).build();
+        } catch (Exception e) {
+            throw new JWorksBusinessException("Error finding {domainName} " + {primaryField}, e);
+        }
+    }
+
+    @Override
+    @Transactional(readOnly = true)
     public List<{domainName}> findAll() throws JWorksBusinessException {
         final Builder<{domainName}> builder = builder({domainName}.class);
         try {
