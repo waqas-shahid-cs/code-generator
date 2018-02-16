@@ -10,7 +10,7 @@ import java.io.File;
 import java.util.Scanner;
 
 public class GenerateClassesCommand extends ContextCommand {
-    public static final String PACKAGE_CONTROLLER = "package.controller";
+    private static final String PACKAGE_CONTROLLER = "package.controller";
     private static final String PACKAGE_ENTITY = "package.entity";
     private static final String PACKAGE_DOMAIN = "package.domain";
     private static final String PACKAGE_SERVICE = "package.service";
@@ -72,7 +72,7 @@ public class GenerateClassesCommand extends ContextCommand {
     public ControllerMetaImpl readControllerMeta(final Scanner scanner, final ServiceMeta serviceMeta) {
         System.out.print("Please provide the Endpoint for the Controller(Leave empty if Controller is not required): ");
         final String endpoint = scanner.nextLine();
-        final ControllerMetaImpl controllerMeta = new ControllerMetaImpl(serviceMeta.getDomainMeta().getName() + "Controller", getPath(PACKAGE_CONTROLLER), getPackage(PACKAGE_ENTITY), endpoint, serviceMeta);
+        final ControllerMetaImpl controllerMeta = new ControllerMetaImpl(serviceMeta.getDomainMeta().getName() + "Controller", getPath(PACKAGE_CONTROLLER), getPackage(PACKAGE_CONTROLLER), endpoint, serviceMeta);
         return controllerMeta;
     }
 
