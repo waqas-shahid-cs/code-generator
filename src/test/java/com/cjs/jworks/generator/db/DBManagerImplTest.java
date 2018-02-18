@@ -15,6 +15,6 @@ public class DBManagerImplTest extends BaseTest {
                 "  `case_name` varchar(255) DEFAULT NULL,\n" +
                 "  PRIMARY KEY (`case_id_seq`)\n" +
                 ")");
-        dbManager.getTableFields("Case");
+        dbManager.getTableMeta("Case");
     }
 }

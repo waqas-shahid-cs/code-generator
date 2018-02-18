@@ -26,7 +26,7 @@ public class FieldGeneratorImpl extends FieldGenerator {
                 put(PLACEHOLDER_FIELD_TYPE, fieldMeta.getType());
             }};
             try {
-                return getTemplateResolver().resolveTemplate(getProperty(TEMPLATE_FIELD, ""), templateParams);
+                return getTemplateResolver().resolveTemplate(getProperty(TEMPLATE_FIELD), templateParams);
             } catch (IOException e) {
                 e.printStackTrace();
             }

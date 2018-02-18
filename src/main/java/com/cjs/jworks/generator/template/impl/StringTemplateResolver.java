@@ -9,6 +9,7 @@ import org.apache.commons.lang3.StringUtils;
 import java.io.*;
 import java.net.URL;
 import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
 import java.util.Map;
 
 public class StringTemplateResolver extends TemplateResolver {
@@ -75,7 +76,7 @@ public class StringTemplateResolver extends TemplateResolver {
         final URL url = getClass().getClassLoader().getResource(getContext().getProperties().getProperty(TEMPLATE_FOLDER_KEY, ""));
         if (url != null) {
             try {
-                return new File(URLDecoder.decode(url.getFile(), "UTF-8"));
+                return new File(URLDecoder.decode(url.getFile(), StandardCharsets.UTF_8.displayName()));
             } catch (UnsupportedEncodingException e) {
                 e.printStackTrace();
             }

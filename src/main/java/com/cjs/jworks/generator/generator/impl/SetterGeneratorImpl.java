@@ -3,7 +3,7 @@ package com.cjs.jworks.generator.generator.impl;
 import com.cjs.jworks.generator.context.Context;
 import com.cjs.jworks.generator.dto.base.FieldMeta;
 import com.cjs.jworks.generator.generator.base.SetterGenerator;
-import org.apache.commons.lang.WordUtils;
+import com.cjs.jworks.generator.util.WordUtils;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -29,7 +29,7 @@ public class SetterGeneratorImpl extends SetterGenerator {
                 put(PLACEHOLDER_FIELD_TYPE, fieldMeta.getType());
             }};
             try {
-                return getTemplateResolver().resolveTemplate(getProperty(TEMPLATE_SETTER, ""), templateParams);
+                return getTemplateResolver().resolveTemplate(getProperty(TEMPLATE_SETTER), templateParams);
             } catch (IOException e) {
                 e.printStackTrace();
             }

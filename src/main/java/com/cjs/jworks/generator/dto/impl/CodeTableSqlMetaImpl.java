@@ -6,8 +6,8 @@ import com.cjs.jworks.generator.dto.base.CodeTableSqlMeta;
 public class CodeTableSqlMetaImpl extends CodeFileMetaImpl implements CodeTableSqlMeta {
     private final CodeTableMeta codeTableMeta;
 
-    public CodeTableSqlMetaImpl(final CodeTableMeta codeTableMeta) {
-        super(codeTableMeta.getSqlFileMeta().getName(), codeTableMeta.getSqlFileMeta().getPath());
+    public CodeTableSqlMetaImpl(final String name, final String path, final CodeTableMeta codeTableMeta) {
+        super(name, path);
         this.codeTableMeta = codeTableMeta;
     }
 

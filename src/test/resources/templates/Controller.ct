@@ -1,0 +1,74 @@
+package {package};
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
+
+import com.cjs.hazel.business.process.JWorksBusinessException;
+import com.cjs.jworks.web.controller.BaseController;
+import com.cjs.jworks.web.util.ServerResponse;
+import com.wordnik.swagger.annotations.Api;
+import com.wordnik.swagger.annotations.ApiOperation;
+import com.wordnik.swagger.annotations.ApiParam;
+
+import {domainPackage}.{domainName};
+import {servicePackage}.{serviceName};
+
+/**
+ * {domainName} domain object controller.  Handles the CRUD operations against a {domainName} domain object.
+ *
+ * @see {domainPackage}.{domainName}
+ *
+ */
+@Api(value = "{entityName}", description = "Operations about {domainName}s.")
+@RequestMapping(value = "{endpoint}", produces = {MediaType.APPLICATION_JSON_VALUE})
+@RestController
+public class {className} extends BaseController {
+
+    @Autowired
+    private {serviceName} {serviceVar};
+
+
+    @ApiOperation(value="Retrieve the list of {domainName}s")
+    @RequestMapping(value = "/list", method = {RequestMethod.POST, RequestMethod.GET})
+    @ResponseBody
+    public ServerResponse<List<{domainName}>> list() throws JWorksBusinessException {
+        return handleServerResponseSuccess({serviceVar}.findAll());
+    }
+
+    @ApiOperation(
+            value = "Given a Case ID, return the list of Alerts associated to the Case.",
+            nickname = "Alert list by Case ID",
+            notes = "Note that this operation is a POST that returns a list of Alerts. " +
+                    "The ServerResponse is always returned and includes the processing status.")
+    @RequestMapping(value = "/{primaryField}", method = {RequestMethod.POST, RequestMethod.GET})
+    public {domainName} findById(Model model,
+                                 @ApiParam(value = "Alert ID of existing Alert", required = true) @PathVariable {primaryFieldType} {primaryField})
+            throws JWorksBusinessException {
+
+        return {serviceVar}.findById({primaryField});
+    }
+
+    @ApiOperation(
+            value = "Given a {domainName} either create or update it.",
+            nickname = "Save or update a {domainName}",
+            notes = "The ServerResponse is always returned and includes the processing status.")
+    @RequestMapping(method = {RequestMethod.POST, RequestMethod.GET})
+    @ResponseBody
+    public ServerResponse<{domainName}> save(@ApiParam(value = "{domainName} domain object", required = true) @RequestBody {domainName} modifiedRow) throws JWorksBusinessException {
+        return handleServerResponseSuccess({serviceVar}.save(modifiedRow));
+    }
+
+    @ApiOperation(
+            value = "Given a {domainName}, delete it.",
+            nickname = "Delete a {domainName}",
+            notes = "The ServerResponse is always returned and includes the processing status.")
+    @RequestMapping(method = {RequestMethod.DELETE})
+    public ServerResponse<Void> delete(@RequestBody {domainName} modifiedRow) throws JWorksBusinessException {
+        {serviceVar}.delete(modifiedRow);
+        return handleServerResponseSuccess(null);
+    }
+}

@@ -15,8 +15,8 @@ public class CodeTableEntityGeneratorImpl extends EntityGeneratorImpl<CodeTableM
     @Override
     protected String getTemplateName(final CodeTableMeta codeTableMeta) {
         if (codeTableMeta.isSorted()) {
-            return getProperty(TEMPLATE_ENTITY_SORTED_CODE_TABLE, "");
+            return getProperty(TEMPLATE_ENTITY_SORTED_CODE_TABLE);
         }
-        return getProperty(TEMPLATE_ENTITY_CODE_TABLE, "");
+        return getProperty(TEMPLATE_ENTITY_CODE_TABLE);
     }
 }

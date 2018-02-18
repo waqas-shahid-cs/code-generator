@@ -1,28 +1,19 @@
 package com.cjs.jworks.generator.dto.impl;
 
 import com.cjs.jworks.generator.dto.base.EntityMeta;
-import com.cjs.jworks.generator.dto.base.FieldMeta;
+import com.cjs.jworks.generator.dto.base.TableMeta;
 
 public class EntityMetaImpl extends ClassMetaImpl implements EntityMeta {
-    private final String table;
-    private FieldMeta[] fieldsMeta;
+    private final TableMeta table;
 
-    public EntityMetaImpl(final String name, final String table, final String path, final String packageName) {
+    public EntityMetaImpl(final String name, final TableMeta table, final String path, final String packageName) {
         super(name, path, packageName);
         this.table = table;
     }
 
     @Override
-    public String getTable() {
+    public TableMeta getTable() {
         return table;
     }
 
-    @Override
-    public FieldMeta[] getFieldsMeta() {
-        return fieldsMeta;
-    }
-
-    public void setFieldsMeta(FieldMeta[] fieldsMeta) {
-        this.fieldsMeta = fieldsMeta;
-    }
 }

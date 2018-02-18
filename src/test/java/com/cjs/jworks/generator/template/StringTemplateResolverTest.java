@@ -6,9 +6,8 @@ import com.cjs.jworks.generator.context.ContextImpl;
 import com.cjs.jworks.generator.template.base.TemplateResolver;
 import com.cjs.jworks.generator.template.impl.StringTemplateResolver;
 import org.apache.commons.io.FileUtils;
-import org.apache.commons.io.filefilter.NotFileFilter;
+import org.apache.commons.io.filefilter.DirectoryFileFilter;
 import org.apache.commons.io.filefilter.TrueFileFilter;
-import org.apache.commons.io.filefilter.WildcardFileFilter;
 import org.junit.Test;
 
 import java.io.File;
@@ -58,9 +57,11 @@ public class StringTemplateResolverTest extends BaseTest {
 
     @Test
     public void testFiles() {
-        final Collection<File> files = FileUtils.listFilesAndDirs(new File("D:\\Code\\jworks2"), new NotFileFilter(TrueFileFilter.INSTANCE), new WildcardFileFilter("**entity**"));
+        final Collection<File> files = FileUtils.listFilesAndDirs(new File("D:\\Code\\jworks2"), TrueFileFilter.INSTANCE, DirectoryFileFilter.INSTANCE);
         for (File file : files) {
-            System.out.println(file.getAbsolutePath());
+            if (file.getAbsolutePath().endsWith("imports.tag")) {
+                System.out.println(file.getAbsolutePath());
+            }
         }
     }
 }

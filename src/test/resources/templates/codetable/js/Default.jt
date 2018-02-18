@@ -1,0 +1,8 @@
+(function ($) {
+    $.widget("{name}", $.cjs.cjsCodeTableEditor, {
+
+        _create: function () {
+            this._super();
+        }
+    });
+})(jQuery);

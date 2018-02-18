@@ -4,14 +4,10 @@ import com.cjs.jworks.generator.context.Context;
 import com.cjs.jworks.generator.dto.base.CodeFileMeta;
 import com.cjs.jworks.generator.dto.base.FileMeta;
 import com.cjs.jworks.generator.dto.impl.FileMetaImpl;
-import org.apache.commons.io.FileUtils;
-import org.apache.commons.io.filefilter.DirectoryFileFilter;
-import org.apache.commons.io.filefilter.NotFileFilter;
-import org.apache.commons.io.filefilter.TrueFileFilter;
+import com.cjs.jworks.generator.util.FileUtils;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Collection;
 import java.util.Map;
 
 public abstract class CodeFileGenerator<P extends CodeFileMeta> extends ContextGenerator<P, File> {
@@ -50,21 +46,10 @@ public abstract class CodeFileGenerator<P extends CodeFileMeta> extends ContextG
 
     protected abstract String getFileExtension();
 
-    private String getFilePath(final P codeFileMeta) {
-        final String folder = searchDirectory(codeFileMeta.getPath());
+    protected String getFilePath(final P codeFileMeta) {
+        final String folder = FileUtils.searchDirectory(codeFileMeta.getPath());
         if (folder != null) return folder;
         return codeFileMeta.getPath();
-    }
-
-    protected String searchDirectory(final String filePath) {
-        final File currentFolder = new File(".");
-        final Collection<File> folders = FileUtils.listFilesAndDirs(currentFolder, new NotFileFilter(TrueFileFilter.INSTANCE), DirectoryFileFilter.INSTANCE);
-        for (final File folder : folders) {
-            if (folder.getAbsolutePath().endsWith(filePath)) {
-                return folder.getAbsolutePath();
-            }
-        }
-        return null;
     }
 
     protected abstract Map<String, String> getParams(final P codeFileMeta) throws Exception;

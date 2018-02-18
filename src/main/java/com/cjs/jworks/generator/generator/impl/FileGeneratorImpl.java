@@ -15,7 +15,7 @@ public class FileGeneratorImpl implements FileGenerator {
             if (!folder.exists()) {
                 throw new IOException("The system cannot find the path specified: " + folder.getAbsolutePath());
             }
-            final File file = new File(folder, fileMeta.getName());
+            final File file = folder.isDirectory() ? new File(folder, fileMeta.getName()) : folder;
             boolean isNew = false;
             if (!file.exists()) {
                 file.createNewFile();

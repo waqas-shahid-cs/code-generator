@@ -1,14 +1,12 @@
 package com.cjs.jworks.generator.dto.impl;
 
-import com.cjs.jworks.generator.dto.base.CodeTableMeta;
-import com.cjs.jworks.generator.dto.base.EntityMeta;
-import com.cjs.jworks.generator.dto.base.FieldMeta;
-import com.cjs.jworks.generator.dto.base.SqlFileMeta;
+import com.cjs.jworks.generator.dto.base.*;
 
 public class CodeTableMetaImpl implements CodeTableMeta {
     private boolean sorted;
     private final EntityMeta entityMeta;
-    private SqlFileMeta sqlFileMeta;
+    private CodeTableSqlMeta sqlFileMeta;
+    private CodeTableJSMeta jsFileMeta;
 
     public CodeTableMetaImpl(final EntityMeta entityMeta) {
         this.entityMeta = entityMeta;
@@ -20,7 +18,7 @@ public class CodeTableMetaImpl implements CodeTableMeta {
     }
 
     @Override
-    public String getTable() {
+    public TableMeta getTable() {
         return entityMeta.getTable();
     }
 
@@ -35,11 +33,11 @@ public class CodeTableMetaImpl implements CodeTableMeta {
     }
 
     @Override
-    public SqlFileMeta getSqlFileMeta() {
+    public CodeTableSqlMeta getSqlFileMeta() {
         return sqlFileMeta;
     }
 
-    public void setSqlFileMeta(SqlFileMeta sqlFileMeta) {
+    public void setSqlFileMeta(CodeTableSqlMeta sqlFileMeta) {
         this.sqlFileMeta = sqlFileMeta;
     }
 
@@ -51,10 +49,12 @@ public class CodeTableMetaImpl implements CodeTableMeta {
     public void setSorted(boolean sorted) {
         this.sorted = sorted;
     }
-
     @Override
-    public FieldMeta[] getFieldsMeta() {
-        return entityMeta.getFieldsMeta();
+    public CodeTableJSMeta getJSFileMeta() {
+        return jsFileMeta;
     }
 
+    public void setJSFileMeta(CodeTableJSMeta jsFileMeta) {
+        this.jsFileMeta = jsFileMeta;
+    }
 }

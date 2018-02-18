@@ -20,7 +20,7 @@ public class DomainGeneratorImpl extends ClassFileGenerator<DomainMeta> implemen
 
     @Override
     protected String getTemplateName(final DomainMeta domainMeta) {
-        return getProperty(TEMPLATE_DOMAIN, "");
+        return getProperty(TEMPLATE_DOMAIN);
     }
 
     @Override
@@ -31,9 +31,9 @@ public class DomainGeneratorImpl extends ClassFileGenerator<DomainMeta> implemen
     @Override
     protected FieldMeta[] getFieldsMeta(final DomainMeta domainMeta) {
         final EntityMeta entityMeta = domainMeta.getEntityMeta();
-        final FieldMeta[] fieldMetas = new FieldMeta[entityMeta.getFieldsMeta().length];
+        final FieldMeta[] fieldMetas = new FieldMeta[entityMeta.getTable().getFields().length];
         int i = 0;
-        for (final FieldMeta fieldMeta : entityMeta.getFieldsMeta()) {
+        for (final FieldMeta fieldMeta : entityMeta.getTable().getFields()) {
             fieldMetas[i++] = new FieldMetaImpl(fieldMeta.getName(), fieldMeta.getType(), null, fieldMeta.isPrimaryKey(), fieldMeta.isNullable(), fieldMeta.isForeignKey());
         }
         return fieldMetas;

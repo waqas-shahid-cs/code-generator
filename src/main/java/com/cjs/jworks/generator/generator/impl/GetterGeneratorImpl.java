@@ -3,7 +3,7 @@ package com.cjs.jworks.generator.generator.impl;
 import com.cjs.jworks.generator.context.Context;
 import com.cjs.jworks.generator.dto.base.FieldMeta;
 import com.cjs.jworks.generator.generator.base.GetterGenerator;
-import org.apache.commons.lang.WordUtils;
+import com.cjs.jworks.generator.util.WordUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import java.io.IOException;
@@ -32,7 +32,7 @@ public class GetterGeneratorImpl extends GetterGenerator {
                 put(PLACEHOLDER_ANNOTATIONS, getAnnotations(fieldMeta));
             }};
             try {
-                return getTemplateResolver().resolveTemplate(getProperty(TEMPLATE_GETTER, ""), templateParams);
+                return getTemplateResolver().resolveTemplate(getProperty(TEMPLATE_GETTER), templateParams);
             } catch (IOException e) {
                 e.printStackTrace();
             }

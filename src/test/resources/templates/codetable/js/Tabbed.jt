@@ -1,0 +1,23 @@
+(function($) {
+
+    $.widget("{name}", $.cjs.cjsCodeTableEditorTabbed, {
+
+        options : {
+            editable : true,
+            tabs: [
+                   {
+                       id: '{entityName}',
+                       editorType: '{editorType}',
+                       title: '{entityName}'
+                   }
+            ],
+            tabSettings: {
+                height: '100%',
+            }
+        },
+
+        _initPanel : function() {
+            this._super();
+        }
+    });
+})(jQuery);

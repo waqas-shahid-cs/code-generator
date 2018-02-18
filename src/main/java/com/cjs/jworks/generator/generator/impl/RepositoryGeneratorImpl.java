@@ -20,7 +20,7 @@ public class RepositoryGeneratorImpl extends ClassFileGenerator<RepositoryMeta> 
 
     @Override
     protected String getTemplateName(final RepositoryMeta repositoryMeta) {
-        return getProperty(TEMPLATE_REPOSITORY, "");
+        return getProperty(TEMPLATE_REPOSITORY);
     }
 
     @Override

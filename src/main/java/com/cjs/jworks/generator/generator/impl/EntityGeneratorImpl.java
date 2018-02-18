@@ -20,18 +20,18 @@ public class EntityGeneratorImpl<P extends EntityMeta> extends ClassFileGenerato
 
     @Override
     protected String getTemplateName(final EntityMeta entityMeta) {
-        return getProperty(TEMPLATE_ENTITY, "");
+        return getProperty(TEMPLATE_ENTITY);
     }
 
     @Override
     protected Map<String, String> getAdditionalParams(final EntityMeta entityMeta) {
         return new HashMap<String, String>() {{
-            put(PLACEHOLDER_TABLE_NAME, entityMeta.getTable());
+            put(PLACEHOLDER_TABLE_NAME, entityMeta.getTable().getName());
         }};
     }
 
     @Override
     protected FieldMeta[] getFieldsMeta(final EntityMeta entityMeta) {
-        return entityMeta.getFieldsMeta();
+        return entityMeta.getTable().getFields();
     }
 }

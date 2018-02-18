@@ -22,7 +22,7 @@ public abstract class ContextGenerator<P, R> implements Generator<P, R> {
         return context;
     }
 
-    protected String getProperty(final String key, String defaultValue) {
-        return context.getProperties().getProperty(key, defaultValue);
+    protected String getProperty(final String key) {
+        return context.getProperties().getProperty(key, "");
     }
 }

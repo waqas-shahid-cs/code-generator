@@ -3,8 +3,10 @@ package com.cjs.jworks.generator.db.impl;
 import com.cjs.jworks.generator.context.Context;
 import com.cjs.jworks.generator.db.base.DBManager;
 import com.cjs.jworks.generator.dto.base.FieldMeta;
+import com.cjs.jworks.generator.dto.base.TableMeta;
 import com.cjs.jworks.generator.dto.impl.FieldMetaImpl;
-import org.apache.commons.lang.WordUtils;
+import com.cjs.jworks.generator.dto.impl.TableMetaImpl;
+import com.cjs.jworks.generator.util.WordUtils;
 
 import java.sql.*;
 import java.util.HashSet;
@@ -26,7 +28,7 @@ public class DBManagerImpl extends DBManager {
     }
 
     @Override
-    public FieldMeta[] getTableFields(final String tableName) throws SQLException {
+    public TableMeta getTableMeta(final String tableName) throws SQLException {
         final Connection connection = createConnection();
         final PreparedStatement preparedStatement = connection.prepareStatement("select * from " + getProperty("genDB.schema", "") + "." + tableName);
         try {
@@ -46,7 +48,7 @@ public class DBManagerImpl extends DBManager {
                 }
                 fieldMetas[i - 1] = fieldMeta;
             }
-            return fieldMetas;
+            return new TableMetaImpl(tableName, fieldMetas);
         } finally {
             preparedStatement.close();
             connection.close();

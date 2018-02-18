@@ -1,6 +1,6 @@
 (function($) {
 
-    $.widget("cjs.${name}", $.cjs.cjsCodeTableEditorTabbed, {
+    $.widget("{name}", $.cjs.cjsCodeTableEditorTabbed, {
 
         options : {
             editable : true,

@@ -51,6 +51,11 @@ public final class GeneratorFactoryImpl extends GeneratorFactory {
     }
 
     @Override
+    public ControllerGenerator getControllerGenerator() {
+        return new ControllerGeneratorImpl(getContext());
+    }
+
+    @Override
     public EntityGenerator<CodeTableMeta> getCodeTableEntityGenerator() {
         return new CodeTableEntityGeneratorImpl(getContext());
     }
@@ -66,7 +71,7 @@ public final class GeneratorFactoryImpl extends GeneratorFactory {
     }
 
     @Override
-    public ControllerGenerator getControllerGenerator() {
-        return new ControllerGeneratorImpl(getContext());
+    public CodeTableJSFileGenerator getCodeTableJSGenerator() {
+        return new CodeTableJSGeneratorImpl(getContext());
     }
 }

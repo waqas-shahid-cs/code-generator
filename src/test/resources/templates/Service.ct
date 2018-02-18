@@ -6,7 +6,8 @@ import com.cjs.hazel.business.process.JWorksBusinessException;
 import {domainPackage}.{domainName};
 
 public interface {className} {
+    {domainName} findById({primaryFieldType} {primaryField}) throws JWorksBusinessException;
     List<{domainName}> findAll() throws JWorksBusinessException;
-    {domainName} save(final {domainName} {domainVar}) throws JWorksBusinessException;
-    void delete(final {domainName} {domainVar}) throws JWorksBusinessException;
+    {domainName} save(final {domainName} modifiedRow) throws JWorksBusinessException;
+    void delete(final {domainName} modifiedRow) throws JWorksBusinessException;
 }

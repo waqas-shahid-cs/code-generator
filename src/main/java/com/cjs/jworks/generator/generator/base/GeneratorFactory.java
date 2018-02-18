@@ -31,12 +31,14 @@ public abstract class GeneratorFactory {
 
     public abstract ServiceGenerator getServiceGenerator();
 
+    public abstract ControllerGenerator getControllerGenerator();
+
     public abstract EntityGenerator<CodeTableMeta> getCodeTableEntityGenerator();
 
     public abstract CodeTableFeatureGenerator getCodeTableFeatureGenerator();
 
     public abstract CodeTableSqlGenerator getCodeTableSqlGenerator();
 
-    public abstract ControllerGenerator getControllerGenerator();
+    public abstract CodeTableJSFileGenerator getCodeTableJSGenerator();
 
 }

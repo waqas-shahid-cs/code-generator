@@ -1,7 +1,7 @@
 package com.cjs.jworks.generator.db.base;
 
 import com.cjs.jworks.generator.context.Context;
-import com.cjs.jworks.generator.dto.base.FieldMeta;
+import com.cjs.jworks.generator.dto.base.TableMeta;
 
 import java.sql.SQLException;
 
@@ -20,7 +20,7 @@ public abstract class DBManager {
         return context.getProperties().getProperty(key, defaultValue);
     }
 
-    public abstract FieldMeta[] getTableFields(final String tableName) throws SQLException;
+    public abstract TableMeta getTableMeta(final String tableName) throws SQLException;
 
     public abstract boolean execute(final String sql) throws SQLException;
 }

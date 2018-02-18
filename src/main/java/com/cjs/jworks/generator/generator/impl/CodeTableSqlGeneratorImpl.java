@@ -8,7 +8,7 @@ import com.cjs.jworks.generator.dto.base.FileMeta;
 import com.cjs.jworks.generator.generator.base.CodeFileGenerator;
 import com.cjs.jworks.generator.generator.base.CodeTableSqlGenerator;
 import com.cjs.jworks.generator.template.base.Template;
-import org.apache.commons.lang.WordUtils;
+import com.cjs.jworks.generator.util.WordUtils;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -38,7 +38,7 @@ public class CodeTableSqlGeneratorImpl extends CodeFileGenerator<CodeTableSqlMet
 
     @Override
     protected String getFileExtension() {
-        return getProperty(EXTENSION_SQL, "");
+        return getProperty(EXTENSION_SQL);
     }
 
     @Override
@@ -48,14 +48,14 @@ public class CodeTableSqlGeneratorImpl extends CodeFileGenerator<CodeTableSqlMet
             put(PLACEHOLDER_ENTITY_PACKAGE, codeTableMeta.getPackage());
             put(PLACEHOLDER_ENTITY_NAME, codeTableMeta.getName());
             put(PLACEHOLDER_DISPLAY_NAME, codeTableMeta.getName());
-            put(PLACEHOLDER_EDITOR_TYPE, getProperty(DEFAULT_EDITOR_TYPE, ""));
-            put(PLACEHOLDER_FIELD_QUERIES, getFieldQueries(codeTableMeta.getFieldsMeta()));
+            put(PLACEHOLDER_EDITOR_TYPE, getProperty(DEFAULT_EDITOR_TYPE));
+            put(PLACEHOLDER_FIELD_QUERIES, getFieldQueries(codeTableMeta.getTable().getFields()));
         }};
         return params;
     }
 
     protected String getFieldQueries(final FieldMeta[] fieldMetas) throws IOException {
-        final Template template = getTemplateResolver().getTemplate(getProperty(TEMPLATE_CODE_TABLE_FIELD, ""));
+        final Template template = getTemplateResolver().getTemplate(getProperty(TEMPLATE_CODE_TABLE_FIELD));
         final StringBuilder builder = new StringBuilder();
         if (template != null) {
             for (int i = 0; i < fieldMetas.length; i++) {
@@ -74,7 +74,7 @@ public class CodeTableSqlGeneratorImpl extends CodeFileGenerator<CodeTableSqlMet
 
     @Override
     protected String getTemplateName(final CodeTableSqlMeta codeTableSqlMeta) {
-        return getProperty(TEMPLATE_CODE_TABLE_META, "");
+        return getProperty(TEMPLATE_CODE_TABLE_META);
     }
 
     @Override

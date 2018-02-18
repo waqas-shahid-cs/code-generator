@@ -1,10 +1,11 @@
 package com.cjs.jworks.generator.generator.impl;
 
 import com.cjs.jworks.generator.context.Context;
+import com.cjs.jworks.generator.dto.base.EntityMeta;
 import com.cjs.jworks.generator.dto.base.FieldMeta;
 import com.cjs.jworks.generator.dto.base.ServiceMeta;
 import com.cjs.jworks.generator.generator.base.ServiceGenerator;
-import org.apache.commons.lang.WordUtils;
+import com.cjs.jworks.generator.util.WordUtils;
 
 import java.io.File;
 import java.util.HashMap;
@@ -37,24 +38,25 @@ public class ServiceGeneratorImpl extends ServiceGenerator {
         if (serviceMeta != null) {
             final File[] serviceFiles = new File[2];
             final Map<String, String> params = getParams(serviceMeta);
-            serviceFiles[0] = new DefaultCodeFileGenerator(getContext(), getProperty(TEMPLATE_SERVICE, ""), params, null).generate(serviceMeta.getBaseServiceMeta());
-            serviceFiles[1] = new DefaultCodeFileGenerator(getContext(), getProperty(TEMPLATE_SERVICE_IMPL, ""), params, null).generate(serviceMeta.getServiceImplMeta());
+            serviceFiles[0] = new DefaultCodeFileGenerator(getContext(), getProperty(TEMPLATE_SERVICE), params, null).generate(serviceMeta.getBaseServiceMeta());
+            serviceFiles[1] = new DefaultCodeFileGenerator(getContext(), getProperty(TEMPLATE_SERVICE_IMPL), params, null).generate(serviceMeta.getServiceImplMeta());
             return serviceFiles;
         }
         return null;
     }
 
     private Map<String, String> getParams(final ServiceMeta serviceMeta) {
-        final FieldMeta primaryField = getPrimaryField(serviceMeta.getEntityMeta().getFieldsMeta());
+        final EntityMeta entityMeta = serviceMeta.getRepositoryMeta().getEntityMeta();
+        final FieldMeta primaryField = entityMeta.getTable().getPrimaryField();
         return new HashMap<String, String>() {{
-            put(PLACEHOLDER_ENTITY_PACKAGE, serviceMeta.getEntityMeta().getPackage());
-            put(PLACEHOLDER_ENTITY_NAME, serviceMeta.getEntityMeta().getName());
+            put(PLACEHOLDER_ENTITY_PACKAGE, entityMeta.getPackage());
+            put(PLACEHOLDER_ENTITY_NAME, entityMeta.getName());
             put(PLACEHOLDER_DOMAIN_PACKAGE, serviceMeta.getDomainMeta().getPackage());
             put(PLACEHOLDER_DOMAIN_NAME, serviceMeta.getDomainMeta().getName());
-            put(PLACEHOLDER_DOMAIN_VAR, getCamelCase(serviceMeta.getDomainMeta().getName()));
+            put(PLACEHOLDER_DOMAIN_VAR, WordUtils.getCamelCase(serviceMeta.getDomainMeta().getName()));
             put(PLACEHOLDER_REPO_PACKAGE, serviceMeta.getRepositoryMeta().getPackage());
             put(PLACEHOLDER_REPO_NAME, serviceMeta.getRepositoryMeta().getName());
-            put(PLACEHOLDER_REPO_VAR, getCamelCase(serviceMeta.getRepositoryMeta().getName()));
+            put(PLACEHOLDER_REPO_VAR, WordUtils.getCamelCase(serviceMeta.getRepositoryMeta().getName()));
             put(PLACEHOLDER_BASE_INTERFACE, serviceMeta.getBaseServiceMeta().getName());
             put(PLACEHOLDER_BASE_INTERFACE_PACKAGE, serviceMeta.getBaseServiceMeta().getPackage());
             if (primaryField != null) {
@@ -63,20 +65,5 @@ public class ServiceGeneratorImpl extends ServiceGenerator {
                 put(PLACEHOLDER_PRIMARY_FIELD, primaryField.getName());
             }
         }};
-    }
-
-    private FieldMeta getPrimaryField(final FieldMeta[] fieldMetas) {
-        if (fieldMetas != null) {
-            for (final FieldMeta fieldMeta : fieldMetas) {
-                if (fieldMeta.isPrimaryKey()) {
-                    return fieldMeta;
-                }
-            }
-        }
-        return null;
-    }
-
-    private String getCamelCase(final String str) {
-        return WordUtils.initials(str).toLowerCase() + str.substring(1);
     }
 }
