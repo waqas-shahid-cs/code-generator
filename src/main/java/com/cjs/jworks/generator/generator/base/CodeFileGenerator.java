@@ -46,7 +46,7 @@ public abstract class CodeFileGenerator<P extends CodeFileMeta> extends ContextG
 
     protected abstract String getFileExtension();
 
-    protected String getFilePath(final P codeFileMeta) {
+    protected String getFilePath(final P codeFileMeta) throws IOException {
         final String folder = FileUtils.searchDirectory(codeFileMeta.getPath());
         if (folder != null) return folder;
         return codeFileMeta.getPath();

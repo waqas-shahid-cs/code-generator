@@ -56,8 +56,9 @@ public class GenerateClassesCommand extends ContextCommand {
                 System.out.println("Service has been generated.");
 
                 final ControllerMeta controllerMeta = readControllerMeta(scanner, serviceMeta);
-                getFactory().getControllerGenerator().generate(controllerMeta);
-                System.out.println("Controller has been generated.");
+                if (getFactory().getControllerGenerator().generate(controllerMeta) != null) {
+                    System.out.println("Controller has been generated.");
+                }
             }
         }
     }
