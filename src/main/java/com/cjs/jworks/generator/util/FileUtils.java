@@ -30,14 +30,14 @@ public final class FileUtils {
         return new File(".").getCanonicalFile().getParentFile();
     }
 
-    public static String searchDirectory(String filePath) throws IOException {
+    public static File searchDirectory(String filePath) throws IOException {
         if (StringUtils.isNotBlank(filePath)) {
             filePath = filePath.replace("/", "\\");
             final File currentFolder = getCurrentDirectory();
             final Collection<File> folders = org.apache.commons.io.FileUtils.listFilesAndDirs(currentFolder, new NotFileFilter(TrueFileFilter.INSTANCE), DirectoryFileFilter.INSTANCE);
             for (final File folder : folders) {
                 if (folder.getAbsolutePath().endsWith(filePath)) {
-                    return folder.getAbsolutePath();
+                    return folder;
                 }
             }
         }

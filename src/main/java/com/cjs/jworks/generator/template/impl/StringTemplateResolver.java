@@ -3,13 +3,14 @@ package com.cjs.jworks.generator.template.impl;
 import com.cjs.jworks.generator.context.Context;
 import com.cjs.jworks.generator.template.base.Template;
 import com.cjs.jworks.generator.template.base.TemplateResolver;
+import com.cjs.jworks.generator.util.FileUtils;
 import org.apache.commons.collections4.MapUtils;
 import org.apache.commons.lang3.StringUtils;
 
-import java.io.*;
-import java.net.URL;
-import java.net.URLDecoder;
-import java.nio.charset.StandardCharsets;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.Map;
 
 public class StringTemplateResolver extends TemplateResolver {
@@ -73,14 +74,15 @@ public class StringTemplateResolver extends TemplateResolver {
     }
 
     private File getTemplateFolder() {
-        final URL url = getClass().getClassLoader().getResource(getContext().getProperties().getProperty(TEMPLATE_FOLDER_KEY, ""));
-        if (url != null) {
+        //final URL url = getClass().getClassLoader().getResource);
+        //if (url != null) {
             try {
-                return new File(URLDecoder.decode(url.getFile(), StandardCharsets.UTF_8.displayName()));
-            } catch (UnsupportedEncodingException e) {
+                //return new File(URLDecoder.decode(url.getFile(), StandardCharsets.UTF_8.displayName()));
+                return FileUtils.searchDirectory(getContext().getProperties().getProperty(TEMPLATE_FOLDER_KEY, ""));
+            } catch (IOException e) {
                 e.printStackTrace();
             }
-        }
+        //}
         return null;
     }
 

@@ -70,8 +70,9 @@ public class GenerateClassesCommand extends ContextCommand {
         final String table = scanner.nextLine();
         TableMeta tableMeta = null;
         try {
-            tableMeta = getContext().getDbManager().getTableMeta(table);
-        } catch (SQLException | ClassNotFoundException e) {
+            //tableMeta = getContext().getDbManager().getTableMeta(table);
+            throw new SQLException();
+        } catch (Exception e) {
             e.printStackTrace();
             tableMeta = new TableMetaImpl(table, getFieldsMeta());
         }
