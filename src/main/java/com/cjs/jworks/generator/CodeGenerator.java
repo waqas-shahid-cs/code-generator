@@ -29,6 +29,7 @@ public class CodeGenerator {
         try (final InputStream inputStream = CodeGenerator.class.getClassLoader().getResourceAsStream(CODEGENERATOR_PROPERTIES)) {
             properties.load(inputStream);
         }
+        properties.putAll(System.getProperties());
         configuration.setProperties(properties);
         return configuration;
     }

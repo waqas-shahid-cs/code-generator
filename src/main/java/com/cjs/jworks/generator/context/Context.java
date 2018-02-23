@@ -5,6 +5,7 @@ import com.cjs.jworks.generator.db.base.DBManager;
 import com.cjs.jworks.generator.generator.base.GeneratorFactory;
 import com.cjs.jworks.generator.template.base.TemplateResolver;
 
+import java.io.File;
 import java.util.Properties;
 
 public interface Context {
@@ -17,4 +18,6 @@ public interface Context {
     TemplateResolver getTemplateResolver();
 
     DBManager getDbManager() throws ClassNotFoundException;
+
+    File getProjectFolder();
 }

@@ -9,10 +9,12 @@ import com.cjs.jworks.generator.generator.impl.GeneratorFactoryImpl;
 import com.cjs.jworks.generator.template.base.TemplateResolver;
 import com.cjs.jworks.generator.template.impl.StringTemplateResolver;
 
+import java.io.File;
 import java.util.Properties;
 
 public class ContextImpl implements Context {
 
+    private static final String PROJECT_PATH = "project.path";
     private Properties properties = new Properties();
 
     @Override
@@ -42,5 +44,10 @@ public class ContextImpl implements Context {
     @Override
     public DBManager getDbManager() throws ClassNotFoundException {
         return new DBManagerImpl(this);
+    }
+
+    @Override
+    public File getProjectFolder() {
+        return new File(getProperties().getProperty(PROJECT_PATH, "."));
     }
 }

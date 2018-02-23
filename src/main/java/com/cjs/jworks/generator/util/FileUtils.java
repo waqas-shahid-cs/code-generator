@@ -13,10 +13,10 @@ public final class FileUtils {
     private FileUtils() {
     }
 
-    public static File searchFile(String filePath) throws IOException {
+    public static File searchFile(final File parentFile, String filePath) throws IOException {
         if (StringUtils.isNotBlank(filePath)) {
             filePath = filePath.replace("/", "\\");
-            final Collection<File> files = org.apache.commons.io.FileUtils.listFilesAndDirs(getCurrentDirectory(), TrueFileFilter.INSTANCE, DirectoryFileFilter.INSTANCE);
+            final Collection<File> files = org.apache.commons.io.FileUtils.listFilesAndDirs(parentFile, TrueFileFilter.INSTANCE, DirectoryFileFilter.INSTANCE);
             for (File file : files) {
                 if (file.getAbsolutePath().endsWith(filePath)) {
                     return file;
@@ -26,15 +26,10 @@ public final class FileUtils {
         return null;
     }
 
-    public static File getCurrentDirectory() throws IOException {
-        return new File(".").getCanonicalFile().getParentFile();
-    }
-
-    public static File searchDirectory(String filePath) throws IOException {
+    public static File searchDirectory(final File parentFile, String filePath) throws IOException {
         if (StringUtils.isNotBlank(filePath)) {
             filePath = filePath.replace("/", "\\");
-            final File currentFolder = getCurrentDirectory();
-            final Collection<File> folders = org.apache.commons.io.FileUtils.listFilesAndDirs(currentFolder, new NotFileFilter(TrueFileFilter.INSTANCE), DirectoryFileFilter.INSTANCE);
+            final Collection<File> folders = org.apache.commons.io.FileUtils.listFilesAndDirs(parentFile, new NotFileFilter(TrueFileFilter.INSTANCE), DirectoryFileFilter.INSTANCE);
             for (final File folder : folders) {
                 if (folder.getAbsolutePath().endsWith(filePath)) {
                     return folder;
