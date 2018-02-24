@@ -49,6 +49,7 @@ public class CodeTableMetaImpl implements CodeTableMeta {
     public void setSorted(boolean sorted) {
         this.sorted = sorted;
     }
+
     @Override
     public CodeTableJSMeta getJSFileMeta() {
         return jsFileMeta;

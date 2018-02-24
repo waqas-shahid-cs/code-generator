@@ -39,7 +39,7 @@ public abstract class JSFileGeneratorImpl<P extends JSFileMeta> extends CodeFile
     }
 
     protected void addScriptToImportFile(final P jsFileMeta) throws Exception {
-        final File importFile = FileUtils.searchFile(getProperty(JAVASCRIPT_FILE_IMPORT));
+        final File importFile = FileUtils.searchFile(getContext().getProjectFolder(), getProperty(JAVASCRIPT_FILE_IMPORT));
         final Map<String, String> params = getImportParams(jsFileMeta);
         final Template scriptTemplate = getScriptTemplate(jsFileMeta);
         final String content = scriptTemplate.resolve(params);

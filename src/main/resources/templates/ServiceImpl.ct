@@ -11,8 +11,8 @@ import com.cjs.hazel.business.process.JWorksBusinessException;
 import {entityPackage}.{entityName};
 import {domainPackage}.{domainName};
 import {repoPackage}.{repoName};
-import com.cjs.com.cjs.jworks.service.Builder;
-import com.cjs.com.cjs.jworks.service.BuilderException;
+import com.cjs.jworks.service.Builder;
+import com.cjs.jworks.service.BuilderException;
 import {baseInterfacePackage}.{baseInterface};
 
 @Service

@@ -44,7 +44,7 @@ public class {className} extends BaseController {
             nickname = "Alert list by Case ID",
             notes = "Note that this operation is a POST that returns a list of Alerts. " +
                     "The ServerResponse is always returned and includes the processing status.")
-    @RequestMapping(value = "/{primaryField}", method = {RequestMethod.POST, RequestMethod.GET})
+    @RequestMapping(value = "/{{primaryField}}", method = {RequestMethod.POST, RequestMethod.GET})
     public {domainName} findById(Model model,
                                  @ApiParam(value = "Alert ID of existing Alert", required = true) @PathVariable {primaryFieldType} {primaryField})
             throws JWorksBusinessException {

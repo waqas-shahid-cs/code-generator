@@ -74,15 +74,11 @@ public class StringTemplateResolver extends TemplateResolver {
     }
 
     private File getTemplateFolder() {
-        //final URL url = getClass().getClassLoader().getResource);
-        //if (url != null) {
-            try {
-                //return new File(URLDecoder.decode(url.getFile(), StandardCharsets.UTF_8.displayName()));
-                return FileUtils.searchDirectory(getContext().getProperties().getProperty(TEMPLATE_FOLDER_KEY, ""));
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        //}
+        try {
+            return FileUtils.searchDirectory(new File("."), getContext().getProperties().getProperty(TEMPLATE_FOLDER_KEY, ""));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         return null;
     }
 
