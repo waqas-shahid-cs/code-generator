@@ -11,6 +11,7 @@ import com.cjs.jworks.generator.template.base.Template;
 import com.cjs.jworks.generator.util.WordUtils;
 
 import java.io.IOException;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -54,12 +55,12 @@ public class CodeTableSqlGeneratorImpl extends CodeFileGenerator<CodeTableSqlMet
         return params;
     }
 
-    protected String getFieldQueries(final FieldMeta[] fieldMetas) throws IOException {
+    protected String getFieldQueries(final Collection<FieldMeta> fieldMetas) throws IOException {
         final Template template = getTemplateResolver().getTemplate(getProperty(TEMPLATE_CODE_TABLE_FIELD));
         final StringBuilder builder = new StringBuilder();
         if (template != null) {
-            for (int i = 0; i < fieldMetas.length; i++) {
-                final FieldMeta fieldMeta = fieldMetas[i];
+            int i = 0;
+            for (final FieldMeta fieldMeta : fieldMetas) {
                 final int index = i + 1, sortOrder = i;
                 builder.append(template.resolve(new HashMap<String, String>() {{
                     put(PLACEHOLDER_FIELD_NAME, fieldMeta.getName());
@@ -67,6 +68,7 @@ public class CodeTableSqlGeneratorImpl extends CodeFileGenerator<CodeTableSqlMet
                     put(PLACEHOLDER_INDEX, index + "");
                     put(PLACEHOLDER_SORT_ORDER, sortOrder + "");
                 }}));
+                i++;
             }
         }
         return builder.toString();

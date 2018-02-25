@@ -10,6 +10,7 @@ import com.cjs.jworks.generator.util.WordUtils;
 
 import java.sql.*;
 import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.Set;
 
 import static java.sql.Types.*;
@@ -34,7 +35,7 @@ public class DBManagerImpl extends DBManager {
         try {
             final ResultSet rs = preparedStatement.executeQuery();
             final ResultSetMetaData metaData = rs.getMetaData();
-            final FieldMeta[] fieldMetas = new FieldMeta[metaData.getColumnCount()];
+            final Set<FieldMeta> fieldMetas = new LinkedHashSet<>(metaData.getColumnCount());
             final String primaryKey = getPrimaryKey(tableName, connection);
             final Set<String> foreignKeys = getForeignKeys(tableName, connection);
 
@@ -46,7 +47,7 @@ public class DBManagerImpl extends DBManager {
                 } else if (foreignKeys.contains(fieldMeta.getDbColumn())) {
                     fieldMeta.setForeignKey(true);
                 }
-                fieldMetas[i - 1] = fieldMeta;
+                fieldMetas.add(fieldMeta);
             }
             return new TableMetaImpl(tableName, fieldMetas);
         } finally {

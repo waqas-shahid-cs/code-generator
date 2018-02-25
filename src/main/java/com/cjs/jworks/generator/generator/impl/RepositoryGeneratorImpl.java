@@ -6,7 +6,9 @@ import com.cjs.jworks.generator.dto.base.RepositoryMeta;
 import com.cjs.jworks.generator.generator.base.ClassFileGenerator;
 import com.cjs.jworks.generator.generator.base.RepositoryGenerator;
 
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.LinkedHashSet;
 import java.util.Map;
 
 public class RepositoryGeneratorImpl extends ClassFileGenerator<RepositoryMeta> implements RepositoryGenerator {
@@ -32,7 +34,7 @@ public class RepositoryGeneratorImpl extends ClassFileGenerator<RepositoryMeta> 
     }
 
     @Override
-    protected FieldMeta[] getFieldsMeta(final RepositoryMeta repositoryMeta) {
-        return null;
+    protected Collection<FieldMeta> getFieldsMeta(final RepositoryMeta repositoryMeta) {
+        return new LinkedHashSet<>(0);
     }
 }

@@ -5,6 +5,7 @@ import com.cjs.jworks.generator.dto.base.ClassMeta;
 import com.cjs.jworks.generator.dto.base.FieldMeta;
 import org.apache.commons.collections4.MapUtils;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -35,7 +36,7 @@ public abstract class ClassFileGenerator<P extends ClassMeta> extends CodeFileGe
     }
 
     private Map<String, String> getDefaultParams(final P classMeta) throws Exception {
-        final FieldMeta[] fieldsMeta = getFieldsMeta(classMeta);
+        final Collection<FieldMeta> fieldsMeta = getFieldsMeta(classMeta);
         return new HashMap<String, String>() {{
             put(PLACEHOLDER_CLASS_NAME, classMeta.getName());
             put(PLACEHOLDER_PACKAGE, classMeta.getPackage());
@@ -46,7 +47,7 @@ public abstract class ClassFileGenerator<P extends ClassMeta> extends CodeFileGe
         }};
     }
 
-    private String getFieldsString(final FieldMeta[] fieldsMeta) throws Exception {
+    private String getFieldsString(final Collection<FieldMeta> fieldsMeta) throws Exception {
         final FieldGenerator fieldGenerator = getFactory().getFieldGenerator();
         final StringBuilder builder = new StringBuilder();
         for (final FieldMeta fieldMeta : fieldsMeta) {
@@ -55,7 +56,7 @@ public abstract class ClassFileGenerator<P extends ClassMeta> extends CodeFileGe
         return builder.toString();
     }
 
-    private String getGetterSetters(final FieldMeta[] fieldsMeta) throws Exception {
+    private String getGetterSetters(final Collection<FieldMeta> fieldsMeta) throws Exception {
         final GetterGenerator getterGenerator = getFactory().getGetterGenerator();
         final SetterGenerator setterGenerator = getFactory().getSetterGenerator();
         final StringBuilder builder = new StringBuilder();
@@ -70,5 +71,5 @@ public abstract class ClassFileGenerator<P extends ClassMeta> extends CodeFileGe
 
     protected abstract Map<String, String> getAdditionalParams(P classMeta);
 
-    protected abstract FieldMeta[] getFieldsMeta(P classMeta);
+    protected abstract Collection<FieldMeta> getFieldsMeta(P classMeta);
 }

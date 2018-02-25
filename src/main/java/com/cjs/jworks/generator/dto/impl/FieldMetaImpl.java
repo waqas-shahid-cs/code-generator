@@ -67,4 +67,14 @@ public class FieldMetaImpl implements FieldMeta {
     public void setForeignKey(boolean foreignKey) {
         this.foreignKey = foreignKey;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        return obj != null && obj instanceof FieldMeta && getName().equals(((FieldMeta) obj).getName());
+    }
+
+    @Override
+    public int hashCode() {
+        return getName().hashCode();
+    }
 }

@@ -3,11 +3,13 @@ package com.cjs.jworks.generator.dto.impl;
 import com.cjs.jworks.generator.dto.base.FieldMeta;
 import com.cjs.jworks.generator.dto.base.TableMeta;
 
+import java.util.Collection;
+
 public class TableMetaImpl implements TableMeta {
     private final String name;
-    private final FieldMeta[] fields;
+    private Collection<FieldMeta> fields;
 
-    public TableMetaImpl(final String name, final FieldMeta[] fields) {
+    public TableMetaImpl(final String name, final Collection<FieldMeta> fields) {
         this.name = name;
         this.fields = fields;
     }
@@ -18,7 +20,7 @@ public class TableMetaImpl implements TableMeta {
     }
 
     @Override
-    public FieldMeta[] getFields() {
+    public Collection<FieldMeta> getFields() {
         return fields;
     }
 
@@ -32,5 +34,10 @@ public class TableMetaImpl implements TableMeta {
             }
         }
         return null;
+    }
+
+    @Override
+    public void addField(final FieldMeta fieldMeta) {
+        fields.add(fieldMeta);
     }
 }

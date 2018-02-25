@@ -8,6 +8,8 @@ import org.apache.commons.lang3.StringUtils;
 
 import java.io.File;
 import java.sql.SQLException;
+import java.util.Collection;
+import java.util.LinkedHashSet;
 import java.util.Scanner;
 
 public class GenerateClassesCommand extends ContextCommand {
@@ -128,11 +130,11 @@ public class GenerateClassesCommand extends ContextCommand {
         return getProperty(packageEntity, "");
     }
 
-    private FieldMeta[] getFieldsMeta() {
-        final FieldMeta[] fieldMetas = new FieldMeta[3];
-        fieldMetas[0] = new FieldMetaImpl("cpxrIdSeq", "Long", "CPXR_ID_SEQ", true, false, false);
-        fieldMetas[1] = new FieldMetaImpl("effDtm", "Date", "EFF_DTM", false, true, false);
-        fieldMetas[2] = new FieldMetaImpl("endDtm", "Date", "END_DTM", false, false, true);
+    private Collection<FieldMeta> getFieldsMeta() {
+        final Collection<FieldMeta> fieldMetas = new LinkedHashSet<>(3);
+        fieldMetas.add(new FieldMetaImpl("cpxrIdSeq", "Long", "CPXR_ID_SEQ", true, false, false));
+        fieldMetas.add(new FieldMetaImpl("effDtm", "Date", "EFF_DTM", false, true, false));
+        fieldMetas.add(new FieldMetaImpl("endDtm", "Date", "END_DTM", false, false, true));
         return fieldMetas;
     }
 

@@ -5,6 +5,7 @@ import com.cjs.jworks.generator.dto.base.ClassMeta;
 import com.cjs.jworks.generator.dto.base.FieldMeta;
 import com.cjs.jworks.generator.generator.base.ClassFileGenerator;
 
+import java.util.Collection;
 import java.util.Map;
 
 public class DefaultCodeFileGenerator extends ClassFileGenerator<ClassMeta> {
@@ -13,10 +14,10 @@ public class DefaultCodeFileGenerator extends ClassFileGenerator<ClassMeta> {
 
     private final String templateName;
     private final Map<String, String> additionalParams;
-    private final FieldMeta[] fieldsMeta;
+    private final Collection<FieldMeta> fieldsMeta;
     private String fileExtension = DEFAULT_FILE_EXTENSION;
 
-    public DefaultCodeFileGenerator(final Context context, final String templateName, final Map<String, String> additionalParams, final FieldMeta[] fieldsMeta) {
+    public DefaultCodeFileGenerator(final Context context, final String templateName, final Map<String, String> additionalParams, final Collection<FieldMeta> fieldsMeta) {
         super(context);
         this.templateName = templateName;
         this.additionalParams = additionalParams;
@@ -43,7 +44,7 @@ public class DefaultCodeFileGenerator extends ClassFileGenerator<ClassMeta> {
     }
 
     @Override
-    protected FieldMeta[] getFieldsMeta(final ClassMeta codeFileMeta) {
+    protected Collection<FieldMeta> getFieldsMeta(final ClassMeta codeFileMeta) {
         return fieldsMeta;
     }
 }

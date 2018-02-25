@@ -8,7 +8,9 @@ import com.cjs.jworks.generator.generator.base.ClassFileGenerator;
 import com.cjs.jworks.generator.generator.base.ControllerGenerator;
 import com.cjs.jworks.generator.util.WordUtils;
 
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.LinkedHashSet;
 import java.util.Map;
 
 public class ControllerGeneratorImpl extends ClassFileGenerator<ControllerMeta> implements ControllerGenerator {
@@ -54,7 +56,7 @@ public class ControllerGeneratorImpl extends ClassFileGenerator<ControllerMeta> 
     }
 
     @Override
-    protected FieldMeta[] getFieldsMeta(ControllerMeta classMeta) {
-        return new FieldMeta[0];
+    protected Collection<FieldMeta> getFieldsMeta(ControllerMeta classMeta) {
+        return new LinkedHashSet<>(0);
     }
 }
